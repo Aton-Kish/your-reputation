@@ -1,9 +1,7 @@
-# Fabric Example Mod
+# Your Reputation
 
-## Setup
-
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+Your Reputation is a WTHIT plugin.
 
 ## License
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+Your Reputation mod is licensed under the MIT License, see [LICENSE](./LICENSE).
