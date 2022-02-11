@@ -15,7 +15,8 @@ import atonkish.reputation.ReputationMod;
 import atonkish.reputation.util.ReputationStatus;
 
 public class VillagerComponentProvider implements IEntityComponentProvider {
-    private void append(ITooltip tooltip, IEntityAccessor accessor) {
+    @Override
+    public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         VillagerEntity villager = accessor.getEntity();
 
         @Nullable
@@ -24,24 +25,9 @@ public class VillagerComponentProvider implements IEntityComponentProvider {
 
         MutableText text = new TranslatableText(status.getTranslateKey());
         if (reputation != null) {
-            text = text.append(String.format("(%+d)", reputation));
+            text = text.append(String.format(" (%d)", reputation));
         }
         text = text.formatted(status.getFormatting());
         tooltip.addLine(text);
-    };
-
-    @Override
-    public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        append(tooltip, accessor);
-    }
-
-    @Override
-    public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        append(tooltip, accessor);
-    }
-
-    @Override
-    public void appendTail(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        append(tooltip, accessor);
     }
 }
