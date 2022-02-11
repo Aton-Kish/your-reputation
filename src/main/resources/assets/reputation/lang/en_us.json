@@ -1,0 +1,8 @@
+{
+  "entity.reputation.villager.reputation.friendly": "Friendly",
+  "entity.reputation.villager.reputation.trustworthy": "Trustworthy",
+  "entity.reputation.villager.reputation.neutral": "Neutral",
+  "entity.reputation.villager.reputation.suspicious": "Suspicious",
+  "entity.reputation.villager.reputation.hostile": "Hostile",
+  "entity.reputation.villager.reputation.unknown": "Unknown"
+}
