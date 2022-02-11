@@ -36,7 +36,7 @@ public class VillagerComponentProvider implements IEntityComponentProvider {
             text = text.append(new LiteralText(villager.getDisplayName().getString())
                     .formatted(Formatting.WHITE, Formatting.STRIKETHROUGH));
             text = text.append(" ");
-            text = text.append(new TranslatableText("entity." + ReputationMod.MOD_ID + ".villager.reputation.snitch")
+            text = text.append(new TranslatableText("entity." + ReputationMod.MOD_ID + ".villager.snitch")
                     .formatted(Formatting.DARK_RED));
         } else {
             text = text.append(new LiteralText(villager.getDisplayName().getString()).formatted(Formatting.WHITE));
