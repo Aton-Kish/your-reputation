@@ -20,7 +20,7 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.WailaConstants;
 
 import atonkish.reputation.ReputationMod;
-import atonkish.reputation.util.CachedData;
+import atonkish.reputation.util.VillagerData;
 import atonkish.reputation.util.ReputationStatus;
 
 public class VillagerComponentProvider implements IEntityComponentProvider {
@@ -29,10 +29,10 @@ public class VillagerComponentProvider implements IEntityComponentProvider {
         PlayerEntity player = accessor.getPlayer();
         VillagerEntity villager = accessor.getEntity();
 
-        CachedData cachedData = getCachedData(player, villager);
+        VillagerData villagerData = getVillagerData(player, villager);
 
         MutableText text = new LiteralText("");
-        if (cachedData.isSnitch()) {
+        if (villagerData.isSnitch()) {
             text = text.append(new LiteralText(villager.getDisplayName().getString())
                     .formatted(Formatting.WHITE, Formatting.STRIKETHROUGH));
             text = text.append(" ");
@@ -50,10 +50,10 @@ public class VillagerComponentProvider implements IEntityComponentProvider {
         PlayerEntity player = accessor.getPlayer();
         VillagerEntity villager = accessor.getEntity();
 
-        CachedData cachedData = getCachedData(player, villager);
+        VillagerData villagerData = getVillagerData(player, villager);
 
         @Nullable
-        Integer reputation = cachedData.getReputation();
+        Integer reputation = villagerData.getReputation();
         ReputationStatus status = ReputationStatus.getStatus(reputation);
 
         MutableText text = new TranslatableText(status.getTranslateKey());
@@ -67,14 +67,14 @@ public class VillagerComponentProvider implements IEntityComponentProvider {
         tooltip.addLine(text);
     }
 
-    private CachedData getCachedData(PlayerEntity player, VillagerEntity villager) {
+    private VillagerData getVillagerData(PlayerEntity player, VillagerEntity villager) {
         @Nullable
-        Cache<VillagerEntity, CachedData> cache = ReputationMod.PLAYER_REPUTATION_CACHE_MAP.get(player);
-        CachedData cachedData = new CachedData();
+        Cache<VillagerEntity, VillagerData> cache = ReputationMod.PLAYER_REPUTATION_CACHE_MAP.get(player);
+        VillagerData data = new VillagerData();
         if (cache != null) {
-            cachedData = Optional.ofNullable(cache.getIfPresent(villager)).orElse(new CachedData());
+            data = Optional.ofNullable(cache.getIfPresent(villager)).orElse(new VillagerData());
         }
 
-        return cachedData;
+        return data;
     }
 }

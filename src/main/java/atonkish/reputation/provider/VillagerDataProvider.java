@@ -12,7 +12,7 @@ import com.google.common.cache.CacheBuilder;
 
 import atonkish.reputation.ReputationMod;
 import atonkish.reputation.entity.passive.VillagerEntityInterface;
-import atonkish.reputation.util.CachedData;
+import atonkish.reputation.util.VillagerData;
 
 public class VillagerDataProvider implements IServerDataProvider<VillagerEntity> {
     @Override
@@ -22,14 +22,14 @@ public class VillagerDataProvider implements IServerDataProvider<VillagerEntity>
         boolean snitch = ((VillagerEntityInterface) villager).isSnitch(player);
 
         if (!ReputationMod.PLAYER_REPUTATION_CACHE_MAP.containsKey(player)) {
-            Cache<VillagerEntity, CachedData> cache = CacheBuilder
+            Cache<VillagerEntity, VillagerData> cache = CacheBuilder
                     .newBuilder()
                     .maximumSize(ReputationMod.MAXIMUM_CACHE_SIZE)
                     .build();
             ReputationMod.PLAYER_REPUTATION_CACHE_MAP.put(player, cache);
         }
 
-        CachedData cachedData = new CachedData(reputation, snitch);
-        ReputationMod.PLAYER_REPUTATION_CACHE_MAP.get(player).put(villager, cachedData);
+        VillagerData villagerData = new VillagerData(reputation, snitch);
+        ReputationMod.PLAYER_REPUTATION_CACHE_MAP.get(player).put(villager, villagerData);
     }
 }

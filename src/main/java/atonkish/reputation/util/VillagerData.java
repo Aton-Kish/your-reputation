@@ -2,17 +2,17 @@ package atonkish.reputation.util;
 
 import javax.annotation.Nullable;
 
-public class CachedData {
+public class VillagerData {
     @Nullable
     private Integer reputation;
     private boolean snitch;
 
-    public CachedData(@Nullable Integer reputation, boolean snitch) {
+    public VillagerData(@Nullable Integer reputation, boolean snitch) {
         this.reputation = reputation;
         this.snitch = snitch;
     }
 
-    public CachedData() {
+    public VillagerData() {
         this(null, false);
     }
 
