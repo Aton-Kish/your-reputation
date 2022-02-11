@@ -16,14 +16,22 @@
   "icon": "assets/reputation/icon.png",
 
   "environment": "*",
-  "entrypoints": {
-    "main": ["atonkish.reputation.ReputationMod"]
-  },
+  "entrypoints": {},
   "mixins": ["reputation.mixins.json"],
+
+  "custom": {
+    "waila:plugins": [
+      {
+        "id": "reputation:plugin",
+        "initializer": "atonkish.reputation.ReputationPlugin"
+      }
+    ]
+  },
 
   "depends": {
     "fabricloader": ">=0.12.12",
     "fabric": "*",
+    "wthit": "*",
     "minecraft": "1.18.x",
     "java": ">=17"
   }
