@@ -2,6 +2,9 @@ package atonkish.reputation.mixin;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.TrackIronGolemTargetGoal;
 import net.minecraft.entity.passive.IronGolemEntity;
@@ -23,9 +26,13 @@ public class TrackIronGolemTargetGoalMixin {
     private IronGolemEntity golem;
 
     @Shadow
+    @Nullable
+    private LivingEntity target;
+
+    @Shadow
     private TargetPredicate targetPredicate;
 
-    @Inject(at = @At("HEAD"), method = "canStart")
+    @Inject(at = @At("HEAD"), method = "canStart", cancellable = true)
     public void canStart(CallbackInfoReturnable<Boolean> infoReturnable) {
         Box box = this.golem.getBoundingBox().expand(10.0, 8.0, 10.0);
         List<VillagerEntity> villagers = this.golem.world.getTargets(VillagerEntity.class, this.targetPredicate,
@@ -39,7 +46,15 @@ public class TrackIronGolemTargetGoalMixin {
                 }
 
                 ((IronGolemEntityInterface) this.golem).addReport(player, villager);
+                this.target = player;
             }
         }
+
+        if (this.target == null) {
+            infoReturnable.setReturnValue(false);
+        }
+
+        infoReturnable.setReturnValue(!(this.target instanceof PlayerEntity)
+                || !this.target.isSpectator() && !((PlayerEntity) this.target).isCreative());
     }
 }
