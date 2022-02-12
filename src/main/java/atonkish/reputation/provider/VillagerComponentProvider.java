@@ -5,9 +5,11 @@ import java.util.Optional;
 import javax.annotation.Nullable;
 
 import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.TranslatableText;
@@ -26,10 +28,8 @@ import atonkish.reputation.util.ReputationStatus;
 public class VillagerComponentProvider implements IEntityComponentProvider {
     @Override
     public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        PlayerEntity player = accessor.getPlayer();
         VillagerEntity villager = accessor.getEntity();
-
-        VillagerData villagerData = getVillagerData(player, villager);
+        VillagerData villagerData = getVillagerData(accessor);
 
         MutableText text = new LiteralText("");
         if (villagerData.isSnitch()) {
@@ -47,10 +47,7 @@ public class VillagerComponentProvider implements IEntityComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        PlayerEntity player = accessor.getPlayer();
-        VillagerEntity villager = accessor.getEntity();
-
-        VillagerData villagerData = getVillagerData(player, villager);
+        VillagerData villagerData = getVillagerData(accessor);
 
         @Nullable
         Integer reputation = villagerData.getReputation();
@@ -67,14 +64,59 @@ public class VillagerComponentProvider implements IEntityComponentProvider {
         tooltip.addLine(text);
     }
 
-    private VillagerData getVillagerData(PlayerEntity player, VillagerEntity villager) {
+    private VillagerData getVillagerData(IEntityAccessor accessor) {
+        PlayerEntity player = accessor.getPlayer();
+        VillagerEntity villager = accessor.getEntity();
+
+        VillagerData villagerData = loadVillagerCache(player, villager);
+
+        NbtCompound data = accessor.getServerData().getCompound(ReputationMod.REPUTATION_CUSTOM_DATA_KEY);
+
         @Nullable
-        Cache<VillagerEntity, VillagerData> cache = ReputationMod.PLAYER_REPUTATION_CACHE_MAP.get(player);
-        VillagerData data = new VillagerData();
-        if (cache != null) {
-            data = Optional.ofNullable(cache.getIfPresent(villager)).orElse(new VillagerData());
+        Integer reputation = data.contains(ReputationMod.VILLAGER_REPUTATION_KEY)
+                ? data.getInt(ReputationMod.VILLAGER_REPUTATION_KEY)
+                : null;
+
+        @Nullable
+        Boolean isSnitch = data.contains(ReputationMod.VILLAGER_IS_SNITCH_KEY)
+                ? data.getBoolean(ReputationMod.VILLAGER_IS_SNITCH_KEY)
+                : null;
+
+        if (reputation != null) {
+            villagerData.setReputation(reputation);
         }
 
-        return data;
+        if (isSnitch != null) {
+            if (isSnitch) {
+                villagerData.setSnitch();
+            } else {
+                villagerData.resetSnitch();
+            }
+        }
+
+        storeVillagerCache(player, villager, villagerData);
+
+        return villagerData;
     }
+
+    private VillagerData loadVillagerCache(PlayerEntity player, VillagerEntity villager) {
+        if (!ReputationMod.PLAYER_REPUTATION_CACHE_MAP.containsKey(player)) {
+            Cache<VillagerEntity, VillagerData> cache = CacheBuilder
+                    .newBuilder()
+                    .maximumSize(ReputationMod.MAXIMUM_CACHE_SIZE)
+                    .build();
+            ReputationMod.PLAYER_REPUTATION_CACHE_MAP.put(player, cache);
+        }
+
+        VillagerData villagerData = Optional
+                .ofNullable(ReputationMod.PLAYER_REPUTATION_CACHE_MAP.get(player).getIfPresent(villager))
+                .orElse(new VillagerData());
+
+        return villagerData;
+    }
+
+    private void storeVillagerCache(PlayerEntity player, VillagerEntity villager, VillagerData villagerData) {
+        ReputationMod.PLAYER_REPUTATION_CACHE_MAP.get(player).put(villager, villagerData);
+    }
+
 }

@@ -7,29 +7,21 @@ import net.minecraft.world.World;
 
 import mcp.mobius.waila.api.IServerDataProvider;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-
 import atonkish.reputation.ReputationMod;
 import atonkish.reputation.entity.passive.VillagerEntityInterface;
-import atonkish.reputation.util.VillagerData;
 
 public class VillagerDataProvider implements IServerDataProvider<VillagerEntity> {
     @Override
     public final void appendServerData(NbtCompound data, ServerPlayerEntity player, World world,
             VillagerEntity villager) {
+        NbtCompound villagerData = new NbtCompound();
+
         int reputation = villager.getReputation(player);
-        boolean snitch = ((VillagerEntityInterface) villager).isSnitch(player);
+        villagerData.putInt(ReputationMod.VILLAGER_REPUTATION_KEY, reputation);
 
-        if (!ReputationMod.PLAYER_REPUTATION_CACHE_MAP.containsKey(player)) {
-            Cache<VillagerEntity, VillagerData> cache = CacheBuilder
-                    .newBuilder()
-                    .maximumSize(ReputationMod.MAXIMUM_CACHE_SIZE)
-                    .build();
-            ReputationMod.PLAYER_REPUTATION_CACHE_MAP.put(player, cache);
-        }
+        boolean isSnitch = ((VillagerEntityInterface) villager).isSnitch(player);
+        villagerData.putBoolean(ReputationMod.VILLAGER_IS_SNITCH_KEY, isSnitch);
 
-        VillagerData villagerData = new VillagerData(reputation, snitch);
-        ReputationMod.PLAYER_REPUTATION_CACHE_MAP.get(player).put(villager, villagerData);
+        data.put(ReputationMod.REPUTATION_CUSTOM_DATA_KEY, villagerData);
     }
 }

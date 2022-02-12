@@ -5,11 +5,11 @@ import javax.annotation.Nullable;
 public class VillagerData {
     @Nullable
     private Integer reputation;
-    private boolean snitch;
+    private boolean isSnitch;
 
-    public VillagerData(@Nullable Integer reputation, boolean snitch) {
+    public VillagerData(@Nullable Integer reputation, boolean isSnitch) {
         this.reputation = reputation;
-        this.snitch = snitch;
+        this.isSnitch = isSnitch;
     }
 
     public VillagerData() {
@@ -21,15 +21,19 @@ public class VillagerData {
         return this.reputation;
     }
 
-    public boolean isSnitch() {
-        return this.snitch;
-    }
-
     public void setReputation(@Nullable Integer reputation) {
         this.reputation = reputation;
     }
 
-    public void setSnitch(boolean snitch) {
-        this.snitch = snitch;
+    public boolean isSnitch() {
+        return this.isSnitch;
+    }
+
+    public void setSnitch() {
+        this.isSnitch = true;
+    }
+
+    public void resetSnitch() {
+        this.isSnitch = false;
     }
 }

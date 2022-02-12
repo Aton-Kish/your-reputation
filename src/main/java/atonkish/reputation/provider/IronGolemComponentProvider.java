@@ -9,6 +9,7 @@ import com.google.common.cache.Cache;
 
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
@@ -26,6 +27,9 @@ public class IronGolemComponentProvider implements IEntityComponentProvider {
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         PlayerEntity player = accessor.getPlayer();
         IronGolemEntity golem = accessor.getEntity();
+
+        NbtCompound data = accessor.getServerData();
+        ReputationMod.LOGGER.info("IronGolem: {}", data);
 
         IronGolemData golemData = getIronGolemData(player, golem);
 
