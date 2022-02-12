@@ -61,22 +61,22 @@ public class IronGolemComponentProvider implements IEntityComponentProvider {
     }
 
     private IronGolemData loadIronGolemCache(PlayerEntity player, IronGolemEntity golem) {
-        if (!ReputationMod.IRON_GOLEM_ANGRY_CACHE_MAP.containsKey(player)) {
+        if (!ReputationMod.IRON_GOLEM_DATA_CACHE_MAP.containsKey(player)) {
             Cache<IronGolemEntity, IronGolemData> cache = CacheBuilder
                     .newBuilder()
                     .maximumSize(ReputationMod.MAXIMUM_CACHE_SIZE)
                     .build();
-            ReputationMod.IRON_GOLEM_ANGRY_CACHE_MAP.put(player, cache);
+            ReputationMod.IRON_GOLEM_DATA_CACHE_MAP.put(player, cache);
         }
 
         IronGolemData golemData = Optional
-                .ofNullable(ReputationMod.IRON_GOLEM_ANGRY_CACHE_MAP.get(player).getIfPresent(golem))
+                .ofNullable(ReputationMod.IRON_GOLEM_DATA_CACHE_MAP.get(player).getIfPresent(golem))
                 .orElse(new IronGolemData());
 
         return golemData;
     }
 
     private void storeIronGolemCache(PlayerEntity player, IronGolemEntity golem, IronGolemData golemData) {
-        ReputationMod.IRON_GOLEM_ANGRY_CACHE_MAP.get(player).put(golem, golemData);
+        ReputationMod.IRON_GOLEM_DATA_CACHE_MAP.get(player).put(golem, golemData);
     }
 }

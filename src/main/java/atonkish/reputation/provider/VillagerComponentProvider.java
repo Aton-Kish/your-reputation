@@ -100,22 +100,22 @@ public class VillagerComponentProvider implements IEntityComponentProvider {
     }
 
     private VillagerData loadVillagerCache(PlayerEntity player, VillagerEntity villager) {
-        if (!ReputationMod.PLAYER_REPUTATION_CACHE_MAP.containsKey(player)) {
+        if (!ReputationMod.VILLAGER_DATA_CACHE_MAP.containsKey(player)) {
             Cache<VillagerEntity, VillagerData> cache = CacheBuilder
                     .newBuilder()
                     .maximumSize(ReputationMod.MAXIMUM_CACHE_SIZE)
                     .build();
-            ReputationMod.PLAYER_REPUTATION_CACHE_MAP.put(player, cache);
+            ReputationMod.VILLAGER_DATA_CACHE_MAP.put(player, cache);
         }
 
         VillagerData villagerData = Optional
-                .ofNullable(ReputationMod.PLAYER_REPUTATION_CACHE_MAP.get(player).getIfPresent(villager))
+                .ofNullable(ReputationMod.VILLAGER_DATA_CACHE_MAP.get(player).getIfPresent(villager))
                 .orElse(new VillagerData());
 
         return villagerData;
     }
 
     private void storeVillagerCache(PlayerEntity player, VillagerEntity villager, VillagerData villagerData) {
-        ReputationMod.PLAYER_REPUTATION_CACHE_MAP.get(player).put(villager, villagerData);
+        ReputationMod.VILLAGER_DATA_CACHE_MAP.get(player).put(villager, villagerData);
     }
 }
