@@ -118,5 +118,4 @@ public class VillagerComponentProvider implements IEntityComponentProvider {
     private void storeVillagerCache(PlayerEntity player, VillagerEntity villager, VillagerData villagerData) {
         ReputationMod.PLAYER_REPUTATION_CACHE_MAP.get(player).put(villager, villagerData);
     }
-
 }

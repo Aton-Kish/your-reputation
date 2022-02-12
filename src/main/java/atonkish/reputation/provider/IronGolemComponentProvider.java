@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,31 +27,56 @@ public class IronGolemComponentProvider implements IEntityComponentProvider {
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         PlayerEntity player = accessor.getPlayer();
-        IronGolemEntity golem = accessor.getEntity();
-
-        NbtCompound data = accessor.getServerData();
-        ReputationMod.LOGGER.info("IronGolem: {}", data);
-
-        IronGolemData golemData = getIronGolemData(player, golem);
+        IronGolemData golemData = getIronGolemData(accessor);
 
         @Nullable
         UUID angryAt = golemData.getAngryAt();
 
-        if (player.getUuid() == angryAt) {
+        if (player.getUuid().equals(angryAt)) {
             MutableText text = new TranslatableText("entity." + ReputationMod.MOD_ID + ".iron_golem.angry")
                     .formatted(Formatting.DARK_RED);
             tooltip.addLine(text);
         }
     }
 
-    private IronGolemData getIronGolemData(PlayerEntity player, IronGolemEntity golem) {
-        @Nullable
-        Cache<IronGolemEntity, IronGolemData> cache = ReputationMod.IRON_GOLEM_ANGRY_CACHE_MAP.get(player);
-        IronGolemData data = new IronGolemData();
-        if (cache != null) {
-            data = Optional.ofNullable(cache.getIfPresent(golem)).orElse(new IronGolemData());
+    private IronGolemData getIronGolemData(IEntityAccessor accessor) {
+        PlayerEntity player = accessor.getPlayer();
+        IronGolemEntity golem = accessor.getEntity();
+
+        IronGolemData golemData = loadIronGolemCache(player, golem);
+
+        NbtCompound data = accessor.getServerData().getCompound(ReputationMod.REPUTATION_CUSTOM_DATA_KEY);
+
+        if (data.contains(ReputationMod.IRON_GOLEM_ANGRY_AT_DATA)) {
+            String angryAtString = data.getString(ReputationMod.IRON_GOLEM_ANGRY_AT_DATA);
+
+            @Nullable
+            UUID angryAt = angryAtString != "" ? UUID.fromString(angryAtString) : null;
+            golemData.setAngryAt(angryAt);
         }
 
-        return data;
+        storeIronGolemCache(player, golem, golemData);
+
+        return golemData;
+    }
+
+    private IronGolemData loadIronGolemCache(PlayerEntity player, IronGolemEntity golem) {
+        if (!ReputationMod.IRON_GOLEM_ANGRY_CACHE_MAP.containsKey(player)) {
+            Cache<IronGolemEntity, IronGolemData> cache = CacheBuilder
+                    .newBuilder()
+                    .maximumSize(ReputationMod.MAXIMUM_CACHE_SIZE)
+                    .build();
+            ReputationMod.IRON_GOLEM_ANGRY_CACHE_MAP.put(player, cache);
+        }
+
+        IronGolemData golemData = Optional
+                .ofNullable(ReputationMod.IRON_GOLEM_ANGRY_CACHE_MAP.get(player).getIfPresent(golem))
+                .orElse(new IronGolemData());
+
+        return golemData;
+    }
+
+    private void storeIronGolemCache(PlayerEntity player, IronGolemEntity golem, IronGolemData golemData) {
+        ReputationMod.IRON_GOLEM_ANGRY_CACHE_MAP.get(player).put(golem, golemData);
     }
 }
