@@ -16,6 +16,14 @@ Your Reputation is a [WTHIT](https://www.curseforge.com/minecraft/mc-mods/wthit)
 | Suspicious  | more than -100 and less than 0 | ![](./images/suspicious.png)  |
 | Hostile     | -100 or less                   | ![](./images/hostile.png)     |
 
+If your reputation is "Hostile", villagers may be snitches.
+
+![](./images/snitch.png)
+
+And then, iron golems will get angry and attack you...
+
+![](./images/angry_golem.png)
+
 ## License
 
 Your Reputation mod is licensed under the MIT License, see [LICENSE](./LICENSE).
