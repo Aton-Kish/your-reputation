@@ -4,12 +4,12 @@
   "version": "${version}",
 
   "name": "Your Reputation",
-  "description": "Your Reputation is a WTHIT plugin.",
+  "description": "a WTHIT plugin that displays your reputation on a tooltip with each villager.",
   "authors": ["Aton-Kish"],
   "contact": {
-    "homepage": "https://github.com/Aton-Kish/yout-reputation",
-    "sources": "https://github.com/Aton-Kish/yout-reputation",
-    "issues": "https://github.com/Aton-Kish/yout-reputation/issues"
+    "homepage": "https://github.com/Aton-Kish/your-reputation",
+    "sources": "https://github.com/Aton-Kish/your-reputation",
+    "issues": "https://github.com/Aton-Kish/your-reputation/issues"
   },
 
   "license": "MIT",
