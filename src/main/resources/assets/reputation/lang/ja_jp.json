@@ -1,0 +1,10 @@
+{
+  "entity.reputation.villager.snitch": "チクリ野郎",
+  "entity.reputation.villager.reputation.friendly": "友好",
+  "entity.reputation.villager.reputation.trustworthy": "信頼",
+  "entity.reputation.villager.reputation.neutral": "中立",
+  "entity.reputation.villager.reputation.suspicious": "不信",
+  "entity.reputation.villager.reputation.hostile": "敵対",
+  "entity.reputation.villager.reputation.unknown": "不明",
+  "entity.reputation.iron_golem.angry": "激怒"
+}

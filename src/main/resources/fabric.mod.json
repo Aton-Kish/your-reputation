@@ -1,38 +1,38 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "reputation",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
-  "authors": [
-    "Me!"
-  ],
+  "name": "Your Reputation",
+  "description": "a WTHIT plugin that displays your reputation on a tooltip with each villager.",
+  "authors": ["Aton-Kish"],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/Aton-Kish/your-reputation",
+    "sources": "https://github.com/Aton-Kish/your-reputation",
+    "issues": "https://github.com/Aton-Kish/your-reputation/issues"
   },
 
-  "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "license": "MIT",
+  "icon": "assets/reputation/icon.png",
 
   "environment": "*",
-  "entrypoints": {
-    "main": [
-      "net.fabricmc.example.ExampleMod"
+  "entrypoints": {},
+  "mixins": ["reputation.mixins.json"],
+
+  "custom": {
+    "waila:plugins": [
+      {
+        "id": "reputation:plugin",
+        "initializer": "atonkish.reputation.ReputationPlugin"
+      }
     ]
   },
-  "mixins": [
-    "modid.mixins.json"
-  ],
 
   "depends": {
     "fabricloader": ">=0.12.12",
     "fabric": "*",
+    "wthit": "*",
     "minecraft": "1.18.x",
     "java": ">=17"
-  },
-  "suggests": {
-    "another-mod": "*"
   }
 }
