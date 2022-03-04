@@ -52,6 +52,7 @@ public class TrackIronGolemTargetGoalMixin {
 
         if (this.target == null) {
             infoReturnable.setReturnValue(false);
+            return;
         }
 
         infoReturnable.setReturnValue(!(this.target instanceof PlayerEntity)
