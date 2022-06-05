@@ -12,7 +12,7 @@ import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 import mcp.mobius.waila.api.IEntityAccessor;
@@ -33,7 +33,7 @@ public class IronGolemComponentProvider implements IEntityComponentProvider {
         UUID angryAt = golemData.getAngryAt();
 
         if (player.getUuid().equals(angryAt)) {
-            MutableText text = new TranslatableText("entity." + ReputationMod.MOD_ID + ".iron_golem.angry")
+            MutableText text = Text.translatable("entity." + ReputationMod.MOD_ID + ".iron_golem.angry")
                     .formatted(Formatting.DARK_RED);
             tooltip.addLine(text);
         }
