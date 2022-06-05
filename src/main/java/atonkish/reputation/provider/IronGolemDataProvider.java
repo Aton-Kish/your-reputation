@@ -6,17 +6,16 @@ import javax.annotation.Nullable;
 
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.world.World;
-
+import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.IServerDataProvider;
 
 import atonkish.reputation.ReputationMod;
 
 public class IronGolemDataProvider implements IServerDataProvider<IronGolemEntity> {
     @Override
-    public final void appendServerData(NbtCompound data, ServerPlayerEntity player, World world,
-            IronGolemEntity golem) {
+    public final void appendServerData(NbtCompound data, IServerAccessor<IronGolemEntity> accessor, IPluginConfig config) {
+        IronGolemEntity golem = accessor.getTarget();
         NbtCompound golemData = new NbtCompound();
 
         @Nullable

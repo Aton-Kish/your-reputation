@@ -10,9 +10,8 @@ import com.google.common.cache.CacheBuilder;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 import mcp.mobius.waila.api.IEntityAccessor;
@@ -31,15 +30,15 @@ public class VillagerComponentProvider implements IEntityComponentProvider {
         VillagerEntity villager = accessor.getEntity();
         VillagerData villagerData = getVillagerData(accessor);
 
-        MutableText text = new LiteralText("");
+        MutableText text = Text.literal("");
         if (villagerData.isSnitch()) {
-            text = text.append(new LiteralText(villager.getDisplayName().getString())
+            text = text.append(Text.literal(villager.getDisplayName().getString())
                     .formatted(Formatting.WHITE, Formatting.STRIKETHROUGH));
             text = text.append(" ");
-            text = text.append(new TranslatableText("entity." + ReputationMod.MOD_ID + ".villager.snitch")
+            text = text.append(Text.translatable("entity." + ReputationMod.MOD_ID + ".villager.snitch")
                     .formatted(Formatting.DARK_RED));
         } else {
-            text = text.append(new LiteralText(villager.getDisplayName().getString()).formatted(Formatting.WHITE));
+            text = text.append(Text.literal(villager.getDisplayName().getString()).formatted(Formatting.WHITE));
         }
 
         tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, text);
@@ -53,7 +52,7 @@ public class VillagerComponentProvider implements IEntityComponentProvider {
         Integer reputation = villagerData.getReputation();
         ReputationStatus status = ReputationStatus.getStatus(reputation);
 
-        MutableText text = new TranslatableText(status.getTranslateKey());
+        MutableText text = Text.translatable(status.getTranslateKey());
 
         if (reputation != null) {
             text = text.append(String.format(" (%d)", reputation));
