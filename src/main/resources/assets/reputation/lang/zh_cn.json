@@ -1,0 +1,10 @@
+{
+  "entity.reputation.villager.snitch": "告密者",
+  "entity.reputation.villager.reputation.friendly": "友好",
+  "entity.reputation.villager.reputation.trustworthy": "信任",
+  "entity.reputation.villager.reputation.neutral": "中立",
+  "entity.reputation.villager.reputation.suspicious": "怀疑",
+  "entity.reputation.villager.reputation.hostile": "敌对",
+  "entity.reputation.villager.reputation.unknown": "未知",
+  "entity.reputation.iron_golem.angry": "愤怒"
+}
