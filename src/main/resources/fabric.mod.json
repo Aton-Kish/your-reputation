@@ -31,14 +31,8 @@
   "depends": {
     "fabricloader": ">=0.14.6",
     "fabric-api": "*",
+    "wthit": "*",
     "minecraft": "~1.19",
     "java": ">=17"
-  },
-  "suggests": {
-    "modmenu": "*",
-    "cloth-config": "*",
-    "reinfchest": "*",
-    "quickshulker": "*",
-    "shulkerboxtooltip": "*"
   }
 }
