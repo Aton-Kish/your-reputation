@@ -1,6 +1,6 @@
 package atonkish.reputation.util;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class VillagerData {
     @Nullable
