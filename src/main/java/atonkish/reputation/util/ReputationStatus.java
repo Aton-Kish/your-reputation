@@ -1,8 +1,8 @@
 package atonkish.reputation.util;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.util.Formatting;
+
+import org.jetbrains.annotations.Nullable;
 
 import atonkish.reputation.ReputationMod;
 

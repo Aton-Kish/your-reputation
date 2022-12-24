@@ -3,7 +3,7 @@ package atonkish.reputation.provider;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;

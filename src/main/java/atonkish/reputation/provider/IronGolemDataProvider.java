@@ -2,7 +2,7 @@ package atonkish.reputation.provider;
 
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -14,7 +14,8 @@ import atonkish.reputation.ReputationMod;
 
 public class IronGolemDataProvider implements IServerDataProvider<IronGolemEntity> {
     @Override
-    public final void appendServerData(NbtCompound data, IServerAccessor<IronGolemEntity> accessor, IPluginConfig config) {
+    public final void appendServerData(NbtCompound data, IServerAccessor<IronGolemEntity> accessor,
+            IPluginConfig config) {
         IronGolemEntity golem = accessor.getTarget();
         NbtCompound golemData = new NbtCompound();
 
