@@ -1,0 +1,10 @@
+{
+    "entity.reputation.villager.snitch": "Dedo duro",
+    "entity.reputation.villager.reputation.friendly": "Amigáveis",
+    "entity.reputation.villager.reputation.trustworthy": "Fidedigno",
+    "entity.reputation.villager.reputation.neutral": "Neutro",
+    "entity.reputation.villager.reputation.suspicious": "Suspeito",
+    "entity.reputation.villager.reputation.hostile": "Hostil",
+    "entity.reputation.villager.reputation.unknown": "Desconhecido",
+    "entity.reputation.iron_golem.angry": "Zangado"
+}
