@@ -25,11 +25,11 @@ import atonkish.reputation.util.IronGolemCache;
 public class IronGolemComponentProvider implements IEntityComponentProvider {
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
+        NbtCompound data = accessor.getServerData().getCompound(ReputationMod.REPUTATION_CUSTOM_DATA_KEY);
         PlayerEntity player = accessor.getPlayer();
         IronGolemEntity golem = accessor.getEntity();
-        NbtCompound data = accessor.getServerData().getCompound(ReputationMod.REPUTATION_CUSTOM_DATA_KEY);
 
-        IronGolemCache.Data golemData = IronGolemComponentProvider.getIronGolemData(player, golem, data);
+        IronGolemCache.Data golemData = IronGolemComponentProvider.getIronGolemData(data, player, golem);
 
         @Nullable
         UUID angryAt = golemData.getAngryAt();
@@ -41,7 +41,7 @@ public class IronGolemComponentProvider implements IEntityComponentProvider {
         }
     }
 
-    private static IronGolemCache.Data getIronGolemData(PlayerEntity player, IronGolemEntity golem, NbtCompound data) {
+    private static IronGolemCache.Data getIronGolemData(NbtCompound data, PlayerEntity player, IronGolemEntity golem) {
         Cache<IronGolemEntity, IronGolemCache.Data> golemCache = IronGolemCache.getOrCreate(player);
         IronGolemCache.Data golemData = Optional
                 .ofNullable(golemCache.getIfPresent(golem))

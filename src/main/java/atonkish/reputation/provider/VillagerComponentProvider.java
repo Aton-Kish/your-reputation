@@ -26,11 +26,11 @@ import atonkish.reputation.util.ReputationStatus;
 public class VillagerComponentProvider implements IEntityComponentProvider {
     @Override
     public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
+        NbtCompound data = accessor.getServerData().getCompound(ReputationMod.REPUTATION_CUSTOM_DATA_KEY);
         PlayerEntity player = accessor.getPlayer();
         VillagerEntity villager = accessor.getEntity();
-        NbtCompound data = accessor.getServerData().getCompound(ReputationMod.REPUTATION_CUSTOM_DATA_KEY);
 
-        VillagerCache.Data villagerData = VillagerComponentProvider.getVillagerData(player, villager, data);
+        VillagerCache.Data villagerData = VillagerComponentProvider.getVillagerData(data, player, villager);
 
         MutableText text = Text.literal("");
         if (villagerData.isSnitch()) {
@@ -48,11 +48,11 @@ public class VillagerComponentProvider implements IEntityComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
+        NbtCompound data = accessor.getServerData().getCompound(ReputationMod.REPUTATION_CUSTOM_DATA_KEY);
         PlayerEntity player = accessor.getPlayer();
         VillagerEntity villager = accessor.getEntity();
-        NbtCompound data = accessor.getServerData().getCompound(ReputationMod.REPUTATION_CUSTOM_DATA_KEY);
 
-        VillagerCache.Data villagerData = VillagerComponentProvider.getVillagerData(player, villager, data);
+        VillagerCache.Data villagerData = VillagerComponentProvider.getVillagerData(data, player, villager);
 
         @Nullable
         Integer reputation = villagerData.getReputation();
@@ -69,7 +69,7 @@ public class VillagerComponentProvider implements IEntityComponentProvider {
         tooltip.addLine(text);
     }
 
-    private static VillagerCache.Data getVillagerData(PlayerEntity player, VillagerEntity villager, NbtCompound data) {
+    private static VillagerCache.Data getVillagerData(NbtCompound data, PlayerEntity player, VillagerEntity villager) {
         Cache<VillagerEntity, VillagerCache.Data> villagerCache = VillagerCache.getOrCreate(player);
         VillagerCache.Data villagerData = Optional
                 .ofNullable(villagerCache.getIfPresent(villager))
