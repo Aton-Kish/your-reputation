@@ -20,7 +20,7 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 
 import atonkish.reputation.ReputationMod;
-import atonkish.reputation.util.IronGolemCache;
+import atonkish.reputation.util.cache.IronGolemCache;
 
 public class IronGolemComponentProvider implements IEntityComponentProvider {
     @Override

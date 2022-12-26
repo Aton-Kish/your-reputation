@@ -11,6 +11,4 @@ public class ReputationMod {
 	public static final String VILLAGER_REPUTATION_KEY = "Reputation";
 	public static final String VILLAGER_IS_SNITCH_KEY = "IsSnitch";
 	public static final String IRON_GOLEM_ANGRY_AT_DATA = "AngryAt";
-
-	public static final int MAXIMUM_CACHE_SIZE = 128;
 }

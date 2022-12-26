@@ -1,4 +1,4 @@
-package atonkish.reputation.util;
+package atonkish.reputation.util.cache;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +12,6 @@ import com.google.common.cache.CacheBuilder;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
-import atonkish.reputation.ReputationMod;
-
 public class IronGolemCache {
     private static final Map<PlayerEntity, Cache<IronGolemEntity, IronGolemCache.Data>> IRON_GOLEM_CACHE_MAP = new HashMap<>();
 
@@ -21,7 +19,7 @@ public class IronGolemCache {
         if (!IronGolemCache.IRON_GOLEM_CACHE_MAP.containsKey(player)) {
             Cache<IronGolemEntity, IronGolemCache.Data> cache = CacheBuilder
                     .newBuilder()
-                    .maximumSize(ReputationMod.MAXIMUM_CACHE_SIZE)
+                    .maximumSize(CacheConfig.MAXIMUM_CACHE_SIZE)
                     .build();
             IronGolemCache.IRON_GOLEM_CACHE_MAP.put(player, cache);
         }

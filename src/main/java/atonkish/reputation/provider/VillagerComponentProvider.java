@@ -20,8 +20,8 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.WailaConstants;
 
 import atonkish.reputation.ReputationMod;
-import atonkish.reputation.util.VillagerCache;
 import atonkish.reputation.util.ReputationStatus;
+import atonkish.reputation.util.cache.VillagerCache;
 
 public class VillagerComponentProvider implements IEntityComponentProvider {
     @Override

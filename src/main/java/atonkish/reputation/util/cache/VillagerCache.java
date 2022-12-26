@@ -1,4 +1,4 @@
-package atonkish.reputation.util;
+package atonkish.reputation.util.cache;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,8 +11,6 @@ import com.google.common.cache.CacheBuilder;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
-import atonkish.reputation.ReputationMod;
-
 public class VillagerCache {
     private static final Map<PlayerEntity, Cache<VillagerEntity, VillagerCache.Data>> VILLAGER_CACHE_MAP = new HashMap<>();
 
@@ -20,7 +18,7 @@ public class VillagerCache {
         if (!VillagerCache.VILLAGER_CACHE_MAP.containsKey(player)) {
             Cache<VillagerEntity, VillagerCache.Data> cache = CacheBuilder
                     .newBuilder()
-                    .maximumSize(ReputationMod.MAXIMUM_CACHE_SIZE)
+                    .maximumSize(CacheConfig.MAXIMUM_CACHE_SIZE)
                     .build();
             VillagerCache.VILLAGER_CACHE_MAP.put(player, cache);
         }
