@@ -26,7 +26,10 @@ public class IronGolemComponentProvider implements IEntityComponentProvider {
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         PlayerEntity player = accessor.getPlayer();
-        IronGolemCache.Data golemData = getIronGolemData(accessor);
+        IronGolemEntity golem = accessor.getEntity();
+        NbtCompound data = accessor.getServerData().getCompound(ReputationMod.REPUTATION_CUSTOM_DATA_KEY);
+
+        IronGolemCache.Data golemData = IronGolemComponentProvider.getIronGolemData(player, golem, data);
 
         @Nullable
         UUID angryAt = golemData.getAngryAt();
@@ -38,16 +41,12 @@ public class IronGolemComponentProvider implements IEntityComponentProvider {
         }
     }
 
-    private IronGolemCache.Data getIronGolemData(IEntityAccessor accessor) {
-        PlayerEntity player = accessor.getPlayer();
-        IronGolemEntity golem = accessor.getEntity();
-
+    private static IronGolemCache.Data getIronGolemData(PlayerEntity player, IronGolemEntity golem, NbtCompound data) {
         Cache<IronGolemEntity, IronGolemCache.Data> golemCache = IronGolemCache.getOrCreate(player);
         IronGolemCache.Data golemData = Optional
                 .ofNullable(golemCache.getIfPresent(golem))
                 .orElse(new IronGolemCache.Data());
 
-        NbtCompound data = accessor.getServerData().getCompound(ReputationMod.REPUTATION_CUSTOM_DATA_KEY);
         if (data.contains(ReputationMod.IRON_GOLEM_ANGRY_AT_DATA)) {
             String angryAtString = data.getString(ReputationMod.IRON_GOLEM_ANGRY_AT_DATA);
 

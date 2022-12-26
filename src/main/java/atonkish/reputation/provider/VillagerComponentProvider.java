@@ -26,8 +26,11 @@ import atonkish.reputation.util.ReputationStatus;
 public class VillagerComponentProvider implements IEntityComponentProvider {
     @Override
     public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
+        PlayerEntity player = accessor.getPlayer();
         VillagerEntity villager = accessor.getEntity();
-        VillagerCache.Data villagerData = getVillagerData(accessor);
+        NbtCompound data = accessor.getServerData().getCompound(ReputationMod.REPUTATION_CUSTOM_DATA_KEY);
+
+        VillagerCache.Data villagerData = VillagerComponentProvider.getVillagerData(player, villager, data);
 
         MutableText text = Text.literal("");
         if (villagerData.isSnitch()) {
@@ -45,7 +48,11 @@ public class VillagerComponentProvider implements IEntityComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        VillagerCache.Data villagerData = getVillagerData(accessor);
+        PlayerEntity player = accessor.getPlayer();
+        VillagerEntity villager = accessor.getEntity();
+        NbtCompound data = accessor.getServerData().getCompound(ReputationMod.REPUTATION_CUSTOM_DATA_KEY);
+
+        VillagerCache.Data villagerData = VillagerComponentProvider.getVillagerData(player, villager, data);
 
         @Nullable
         Integer reputation = villagerData.getReputation();
@@ -62,16 +69,11 @@ public class VillagerComponentProvider implements IEntityComponentProvider {
         tooltip.addLine(text);
     }
 
-    private VillagerCache.Data getVillagerData(IEntityAccessor accessor) {
-        PlayerEntity player = accessor.getPlayer();
-        VillagerEntity villager = accessor.getEntity();
-
+    private static VillagerCache.Data getVillagerData(PlayerEntity player, VillagerEntity villager, NbtCompound data) {
         Cache<VillagerEntity, VillagerCache.Data> villagerCache = VillagerCache.getOrCreate(player);
         VillagerCache.Data villagerData = Optional
                 .ofNullable(villagerCache.getIfPresent(villager))
                 .orElse(new VillagerCache.Data());
-
-        NbtCompound data = accessor.getServerData().getCompound(ReputationMod.REPUTATION_CUSTOM_DATA_KEY);
 
         @Nullable
         Integer reputation = data.contains(ReputationMod.VILLAGER_REPUTATION_KEY)
