@@ -15,11 +15,11 @@ import atonkish.reputation.provider.VillagerDataProvider;
 public class ReputationPlugin implements IWailaPlugin {
     @Override
     public void register(IRegistrar registrar) {
+        registrar.addComponent(new IronGolemComponentProvider(), TooltipPosition.BODY, IronGolemEntity.class);
+        registrar.addEntityData(new IronGolemDataProvider(), IronGolemEntity.class);
+
         registrar.addComponent(new VillagerComponentProvider(), TooltipPosition.HEAD, VillagerEntity.class);
         registrar.addComponent(new VillagerComponentProvider(), TooltipPosition.BODY, VillagerEntity.class);
         registrar.addEntityData(new VillagerDataProvider(), VillagerEntity.class);
-
-        registrar.addComponent(new IronGolemComponentProvider(), TooltipPosition.BODY, IronGolemEntity.class);
-        registrar.addEntityData(new IronGolemDataProvider(), IronGolemEntity.class);
     }
 }
