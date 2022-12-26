@@ -19,11 +19,7 @@ public class VillagerEntityMixin implements VillagerEntityInterface {
         return Optional.ofNullable(this.snitchRecords.get(player)).orElse(false);
     }
 
-    public void setSnitch(PlayerEntity player) {
-        this.snitchRecords.put(player, true);
-    }
-
-    public void resetSnitch(PlayerEntity player) {
-        this.snitchRecords.put(player, false);
+    public void setIsSnitch(PlayerEntity player, boolean isSnitch) {
+        this.snitchRecords.put(player, isSnitch);
     }
 }

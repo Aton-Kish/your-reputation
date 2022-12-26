@@ -25,14 +25,14 @@ public abstract class IronGolemEntityMixin implements Angerable, IronGolemEntity
             harmReports.put(player, victims);
         }
 
-        ((VillagerEntityInterface) villager).setSnitch(player);
+        ((VillagerEntityInterface) villager).setIsSnitch(player, true);
         return this.harmReports.get(player).add(villager);
     }
 
     public void clearReports() {
         for (PlayerEntity player : this.harmReports.keySet()) {
             for (VillagerEntity villager : this.harmReports.get(player)) {
-                ((VillagerEntityInterface) villager).resetSnitch(player);
+                ((VillagerEntityInterface) villager).setIsSnitch(player, false);
             }
         }
         this.harmReports.clear();
