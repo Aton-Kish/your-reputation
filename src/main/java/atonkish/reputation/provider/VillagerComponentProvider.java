@@ -26,7 +26,7 @@ import atonkish.reputation.util.cache.VillagerCache;
 public class VillagerComponentProvider implements IEntityComponentProvider {
     @Override
     public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        NbtCompound data = accessor.getServerData().getCompound(ReputationMod.REPUTATION_CUSTOM_DATA_KEY);
+        NbtCompound data = accessor.getServerData().getCompound(DataKeys.REPUTATION_MOD_DATA);
         PlayerEntity player = accessor.getPlayer();
         VillagerEntity villager = accessor.getEntity();
 
@@ -48,7 +48,7 @@ public class VillagerComponentProvider implements IEntityComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        NbtCompound data = accessor.getServerData().getCompound(ReputationMod.REPUTATION_CUSTOM_DATA_KEY);
+        NbtCompound data = accessor.getServerData().getCompound(DataKeys.REPUTATION_MOD_DATA);
         PlayerEntity player = accessor.getPlayer();
         VillagerEntity villager = accessor.getEntity();
 
@@ -76,16 +76,16 @@ public class VillagerComponentProvider implements IEntityComponentProvider {
                 .orElse(new VillagerCache.Data());
 
         @Nullable
-        Integer reputation = data.contains(ReputationMod.VILLAGER_REPUTATION_KEY)
-                ? data.getInt(ReputationMod.VILLAGER_REPUTATION_KEY)
+        Integer reputation = data.contains(DataKeys.VILLAGER_REPUTATION)
+                ? data.getInt(DataKeys.VILLAGER_REPUTATION)
                 : null;
         if (reputation != null) {
             villagerData.setReputation(reputation);
         }
 
         @Nullable
-        Boolean isSnitch = data.contains(ReputationMod.VILLAGER_IS_SNITCH_KEY)
-                ? data.getBoolean(ReputationMod.VILLAGER_IS_SNITCH_KEY)
+        Boolean isSnitch = data.contains(DataKeys.VILLAGER_IS_SNITCH)
+                ? data.getBoolean(DataKeys.VILLAGER_IS_SNITCH)
                 : null;
         if (isSnitch != null) {
             villagerData.setIsSnitch(isSnitch);

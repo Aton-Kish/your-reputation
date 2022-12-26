@@ -25,7 +25,7 @@ import atonkish.reputation.util.cache.IronGolemCache;
 public class IronGolemComponentProvider implements IEntityComponentProvider {
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        NbtCompound data = accessor.getServerData().getCompound(ReputationMod.REPUTATION_CUSTOM_DATA_KEY);
+        NbtCompound data = accessor.getServerData().getCompound(DataKeys.REPUTATION_MOD_DATA);
         PlayerEntity player = accessor.getPlayer();
         IronGolemEntity golem = accessor.getEntity();
 
@@ -48,8 +48,8 @@ public class IronGolemComponentProvider implements IEntityComponentProvider {
                 .orElse(new IronGolemCache.Data());
 
         @Nullable
-        UUID angryAt = data.contains(ReputationMod.IRON_GOLEM_ANGRY_AT_DATA)
-                ? data.getUuid(ReputationMod.IRON_GOLEM_ANGRY_AT_DATA)
+        UUID angryAt = data.contains(DataKeys.IRON_GOLEM_ANGRY_AT)
+                ? data.getUuid(DataKeys.IRON_GOLEM_ANGRY_AT)
                 : null;
         golemData.setAngryAt(angryAt);
 
