@@ -47,13 +47,11 @@ public class IronGolemComponentProvider implements IEntityComponentProvider {
                 .ofNullable(golemCache.getIfPresent(golem))
                 .orElse(new IronGolemCache.Data());
 
-        if (data.contains(ReputationMod.IRON_GOLEM_ANGRY_AT_DATA)) {
-            String angryAtString = data.getString(ReputationMod.IRON_GOLEM_ANGRY_AT_DATA);
-
-            @Nullable
-            UUID angryAt = angryAtString != "" ? UUID.fromString(angryAtString) : null;
-            golemData.setAngryAt(angryAt);
-        }
+        @Nullable
+        UUID angryAt = data.contains(ReputationMod.IRON_GOLEM_ANGRY_AT_DATA)
+                ? data.getUuid(ReputationMod.IRON_GOLEM_ANGRY_AT_DATA)
+                : null;
+        golemData.setAngryAt(angryAt);
 
         golemCache.put(golem, golemData);
 

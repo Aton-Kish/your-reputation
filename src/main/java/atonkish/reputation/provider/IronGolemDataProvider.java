@@ -21,7 +21,7 @@ public class IronGolemDataProvider implements IServerDataProvider<IronGolemEntit
 
         @Nullable
         UUID angryAt = golem.getAngryAt();
-        golemData.putString(ReputationMod.IRON_GOLEM_ANGRY_AT_DATA, angryAt != null ? angryAt.toString() : "");
+        golemData.putUuid(ReputationMod.IRON_GOLEM_ANGRY_AT_DATA, angryAt);
 
         data.put(ReputationMod.REPUTATION_CUSTOM_DATA_KEY, golemData);
     }

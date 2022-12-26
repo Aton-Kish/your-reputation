@@ -79,16 +79,14 @@ public class VillagerComponentProvider implements IEntityComponentProvider {
         Integer reputation = data.contains(ReputationMod.VILLAGER_REPUTATION_KEY)
                 ? data.getInt(ReputationMod.VILLAGER_REPUTATION_KEY)
                 : null;
+        if (reputation != null) {
+            villagerData.setReputation(reputation);
+        }
 
         @Nullable
         Boolean isSnitch = data.contains(ReputationMod.VILLAGER_IS_SNITCH_KEY)
                 ? data.getBoolean(ReputationMod.VILLAGER_IS_SNITCH_KEY)
                 : null;
-
-        if (reputation != null) {
-            villagerData.setReputation(reputation);
-        }
-
         if (isSnitch != null) {
             villagerData.setIsSnitch(isSnitch);
         }
