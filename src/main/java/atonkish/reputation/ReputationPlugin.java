@@ -1,11 +1,11 @@
 package atonkish.reputation;
 
-import net.minecraft.entity.passive.IronGolemEntity;
-import net.minecraft.entity.passive.VillagerEntity;
-
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.TooltipPosition;
+
+import net.minecraft.entity.passive.IronGolemEntity;
+import net.minecraft.entity.passive.VillagerEntity;
 
 import atonkish.reputation.provider.IronGolemProvider;
 import atonkish.reputation.provider.VillagerProvider;

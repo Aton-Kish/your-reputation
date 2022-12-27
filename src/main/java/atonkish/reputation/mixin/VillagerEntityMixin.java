@@ -1,13 +1,13 @@
 package atonkish.reputation.mixin;
 
-import net.minecraft.entity.passive.VillagerEntity;
-import net.minecraft.entity.player.PlayerEntity;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 import org.spongepowered.asm.mixin.Mixin;
+
+import net.minecraft.entity.passive.VillagerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 
 import atonkish.reputation.entity.passive.VillagerEntityInterface;
 
