@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Your Reputation",
-  "description": "a WTHIT plugin that displays your reputation on a tooltip with each villager.",
+  "description": "a Jade plugin that displays your reputation on a tooltip with each villager.",
   "authors": ["Aton-Kish"],
   "contact": {
     "homepage": "https://github.com/Aton-Kish/your-reputation",
@@ -16,22 +16,15 @@
   "icon": "assets/reputation/icon.png",
 
   "environment": "*",
-  "entrypoints": {},
-  "mixins": ["reputation.mixins.json"],
-
-  "custom": {
-    "waila:plugins": [
-      {
-        "id": "reputation:plugin",
-        "initializer": "atonkish.reputation.ReputationPlugin"
-      }
-    ]
+  "entrypoints": {
+    "jade": ["atonkish.reputation.ReputationPlugin"]
   },
+  "mixins": ["reputation.mixins.json"],
 
   "depends": {
     "fabricloader": ">=0.14.6",
     "fabric-api": "*",
-    "wthit": "*",
+    "jade": "*",
     "minecraft": "~1.19",
     "java": ">=17"
   }

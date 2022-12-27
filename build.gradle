@@ -17,9 +17,11 @@ repositories {
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
 
-	// WTHIT
 	maven {
-		url "https://maven.bai.lol"
+		url "https://www.cursemaven.com"
+		content {
+			includeGroup "curse.maven"
+		}
 	}
 }
 
@@ -32,8 +34,8 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	// WTHIT
-	modImplementation "mcp.mobius.waila:wthit:fabric-${project.wthit_version}"
+	// Jade
+	modImplementation "curse.maven:jade-324717:${project.jade_file_id}"
 }
 
 processResources {

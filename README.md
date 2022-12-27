@@ -6,7 +6,7 @@
 
 # Your Reputation
 
-Your Reputation is a [WTHIT](https://www.curseforge.com/minecraft/mc-mods/wthit) plugin that displays your reputation on a tooltip with each villager.
+Your Reputation is a [Jade](https://www.curseforge.com/minecraft/mc-mods/jade) plugin that displays your reputation on a tooltip with each villager.
 
 | Reputation  | Value                          | Tooltip                       |
 | ----------- | ------------------------------ | ----------------------------- |
