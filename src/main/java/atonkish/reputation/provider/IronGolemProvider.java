@@ -50,13 +50,12 @@ public enum IronGolemProvider implements IEntityComponentProvider, IServerDataPr
     public final void appendServerData(NbtCompound data, IServerAccessor<IronGolemEntity> accessor,
             IPluginConfig config) {
         IronGolemEntity golem = accessor.getTarget();
-        NbtCompound golemData = new NbtCompound();
 
         @Nullable
         UUID angryAt = golem.getAngryAt();
-        golemData.putUuid(DataKeys.IRON_GOLEM_ANGRY_AT, angryAt);
-
-        data.put(DataKeys.REPUTATION_MOD_DATA, golemData);
+        if (angryAt != null) {
+            data.putUuid(DataKeys.IRON_GOLEM_ANGRY_AT, angryAt);
+        }
     }
 
     private static IronGolemCache.Data getIronGolemData(NbtCompound data, PlayerEntity player, IronGolemEntity golem) {
@@ -65,11 +64,9 @@ public enum IronGolemProvider implements IEntityComponentProvider, IServerDataPr
                 .ofNullable(golemCache.getIfPresent(golem))
                 .orElse(new IronGolemCache.Data());
 
-        NbtCompound modData = data.getCompound(DataKeys.REPUTATION_MOD_DATA);
-
         @Nullable
-        UUID angryAt = modData.contains(DataKeys.IRON_GOLEM_ANGRY_AT)
-                ? modData.getUuid(DataKeys.IRON_GOLEM_ANGRY_AT)
+        UUID angryAt = data.contains(DataKeys.IRON_GOLEM_ANGRY_AT)
+                ? data.getUuid(DataKeys.IRON_GOLEM_ANGRY_AT)
                 : null;
         golemData.setAngryAt(angryAt);
 

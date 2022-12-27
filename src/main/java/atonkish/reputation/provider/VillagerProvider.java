@@ -80,17 +80,13 @@ public enum VillagerProvider implements IEntityComponentProvider, IServerDataPro
     public final void appendServerData(NbtCompound data, IServerAccessor<VillagerEntity> accessor,
             IPluginConfig config) {
         ServerPlayerEntity player = accessor.getPlayer();
-
         VillagerEntity villager = accessor.getTarget();
-        NbtCompound villagerData = new NbtCompound();
 
         int reputation = villager.getReputation(player);
-        villagerData.putInt(DataKeys.VILLAGER_REPUTATION, reputation);
+        data.putInt(DataKeys.VILLAGER_REPUTATION, reputation);
 
         boolean isSnitch = ((VillagerEntityInterface) villager).isSnitch(player);
-        villagerData.putBoolean(DataKeys.VILLAGER_IS_SNITCH, isSnitch);
-
-        data.put(DataKeys.REPUTATION_MOD_DATA, villagerData);
+        data.putBoolean(DataKeys.VILLAGER_IS_SNITCH, isSnitch);
     }
 
     private static VillagerCache.Data getVillagerData(NbtCompound data, PlayerEntity player, VillagerEntity villager) {
@@ -99,19 +95,17 @@ public enum VillagerProvider implements IEntityComponentProvider, IServerDataPro
                 .ofNullable(villagerCache.getIfPresent(villager))
                 .orElse(new VillagerCache.Data());
 
-        NbtCompound modData = data.getCompound(DataKeys.REPUTATION_MOD_DATA);
-
         @Nullable
-        Integer reputation = modData.contains(DataKeys.VILLAGER_REPUTATION)
-                ? modData.getInt(DataKeys.VILLAGER_REPUTATION)
+        Integer reputation = data.contains(DataKeys.VILLAGER_REPUTATION)
+                ? data.getInt(DataKeys.VILLAGER_REPUTATION)
                 : null;
         if (reputation != null) {
             villagerData.setReputation(reputation);
         }
 
         @Nullable
-        Boolean isSnitch = modData.contains(DataKeys.VILLAGER_IS_SNITCH)
-                ? modData.getBoolean(DataKeys.VILLAGER_IS_SNITCH)
+        Boolean isSnitch = data.contains(DataKeys.VILLAGER_IS_SNITCH)
+                ? data.getBoolean(DataKeys.VILLAGER_IS_SNITCH)
                 : null;
         if (isSnitch != null) {
             villagerData.setIsSnitch(isSnitch);
