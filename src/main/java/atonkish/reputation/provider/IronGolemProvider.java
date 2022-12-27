@@ -30,7 +30,7 @@ public enum IronGolemProvider implements IEntityComponentProvider, IServerDataPr
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        NbtCompound data = accessor.getServerData().getCompound(DataKeys.REPUTATION_MOD_DATA);
+        NbtCompound data = accessor.getServerData();
         PlayerEntity player = accessor.getPlayer();
         IronGolemEntity golem = accessor.getEntity();
 
@@ -65,9 +65,11 @@ public enum IronGolemProvider implements IEntityComponentProvider, IServerDataPr
                 .ofNullable(golemCache.getIfPresent(golem))
                 .orElse(new IronGolemCache.Data());
 
+        NbtCompound modData = data.getCompound(DataKeys.REPUTATION_MOD_DATA);
+
         @Nullable
-        UUID angryAt = data.contains(DataKeys.IRON_GOLEM_ANGRY_AT)
-                ? data.getUuid(DataKeys.IRON_GOLEM_ANGRY_AT)
+        UUID angryAt = modData.contains(DataKeys.IRON_GOLEM_ANGRY_AT)
+                ? modData.getUuid(DataKeys.IRON_GOLEM_ANGRY_AT)
                 : null;
         golemData.setAngryAt(angryAt);
 

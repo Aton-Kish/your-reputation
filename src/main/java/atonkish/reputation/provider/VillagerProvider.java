@@ -33,7 +33,7 @@ public enum VillagerProvider implements IEntityComponentProvider, IServerDataPro
 
     @Override
     public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        NbtCompound data = accessor.getServerData().getCompound(DataKeys.REPUTATION_MOD_DATA);
+        NbtCompound data = accessor.getServerData();
         PlayerEntity player = accessor.getPlayer();
         VillagerEntity villager = accessor.getEntity();
 
@@ -55,7 +55,7 @@ public enum VillagerProvider implements IEntityComponentProvider, IServerDataPro
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        NbtCompound data = accessor.getServerData().getCompound(DataKeys.REPUTATION_MOD_DATA);
+        NbtCompound data = accessor.getServerData();
         PlayerEntity player = accessor.getPlayer();
         VillagerEntity villager = accessor.getEntity();
 
@@ -99,17 +99,19 @@ public enum VillagerProvider implements IEntityComponentProvider, IServerDataPro
                 .ofNullable(villagerCache.getIfPresent(villager))
                 .orElse(new VillagerCache.Data());
 
+        NbtCompound modData = data.getCompound(DataKeys.REPUTATION_MOD_DATA);
+
         @Nullable
-        Integer reputation = data.contains(DataKeys.VILLAGER_REPUTATION)
-                ? data.getInt(DataKeys.VILLAGER_REPUTATION)
+        Integer reputation = modData.contains(DataKeys.VILLAGER_REPUTATION)
+                ? modData.getInt(DataKeys.VILLAGER_REPUTATION)
                 : null;
         if (reputation != null) {
             villagerData.setReputation(reputation);
         }
 
         @Nullable
-        Boolean isSnitch = data.contains(DataKeys.VILLAGER_IS_SNITCH)
-                ? data.getBoolean(DataKeys.VILLAGER_IS_SNITCH)
+        Boolean isSnitch = modData.contains(DataKeys.VILLAGER_IS_SNITCH)
+                ? modData.getBoolean(DataKeys.VILLAGER_IS_SNITCH)
                 : null;
         if (isSnitch != null) {
             villagerData.setIsSnitch(isSnitch);
