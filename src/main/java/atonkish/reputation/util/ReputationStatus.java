@@ -18,7 +18,7 @@ public enum ReputationStatus {
     private final Formatting formatting;
 
     private ReputationStatus(String status, Formatting formatting) {
-        this.translateKey = "entity." + ReputationMod.MOD_ID + ".villager.reputation." + status;
+        this.translateKey = String.format("entity.%s.villager.reputation.%s", ReputationMod.MOD_ID, status);
         this.formatting = formatting;
     }
 

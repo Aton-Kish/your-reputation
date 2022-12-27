@@ -42,8 +42,8 @@ public enum IronGolemProvider implements IEntityComponentProvider, IServerDataPr
         UUID angryAt = golemData.getAngryAt();
 
         if (player.getUuid().equals(angryAt)) {
-            MutableText text = Text.translatable("entity." + ReputationMod.MOD_ID + ".iron_golem.angry")
-                    .formatted(Formatting.DARK_RED);
+            String angryTranslateKey = String.format("entity.%s.iron_golem.angry", ReputationMod.MOD_ID);
+            MutableText text = Text.translatable(angryTranslateKey).formatted(Formatting.DARK_RED);
             tooltip.addLine(text);
         }
     }

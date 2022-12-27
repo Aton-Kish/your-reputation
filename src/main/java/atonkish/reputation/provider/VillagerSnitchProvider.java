@@ -45,17 +45,18 @@ public enum VillagerSnitchProvider implements IEntityComponentProvider, IServerD
         @Nullable
         Text customName = villager.getCustomName();
         String name = customName != null
-                ? customName.getString() + " (" + ((EntityAccess) villager).wthit_getTypeName().getString() + ")"
+                ? String.format("%s (%s)", customName.getString(),
+                        ((EntityAccess) villager).wthit_getTypeName().getString())
                 : villager.getName().getString();
 
         IWailaConfig.Formatter formatter = IWailaConfig.get().getFormatter();
         Text text = formatter.entityName(name);
         if (villagerData.isSnitch()) {
+            String snitchTranslateKey = String.format("entity.%s.villager.snitch", ReputationMod.MOD_ID);
             MutableText mText = Text.empty();
             mText = mText.append(Text.literal(name).formatted(Formatting.WHITE, Formatting.STRIKETHROUGH));
             mText = mText.append(" ");
-            mText = mText.append(Text.translatable("entity." + ReputationMod.MOD_ID + ".villager.snitch")
-                    .formatted(Formatting.DARK_RED));
+            mText = mText.append(Text.translatable(snitchTranslateKey).formatted(Formatting.DARK_RED));
 
             text = mText;
         }
