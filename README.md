@@ -2,7 +2,7 @@
 ![Mod Environment](https://img.shields.io/static/v1?label=environment&message=client%2Fserver&color=yellow)
 [![Downloads](https://raw.githubusercontent.com/Aton-Kish/mcmod-stats/main/your-reputation/downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/your-reputation)
 [![MIT License](https://img.shields.io/static/v1?label=licence&message=MIT&color=blue)](./LICENSE)
-[![build](https://github.com/Aton-Kish/your-reputation/actions/workflows/build.yaml/badge.svg?branch=1.19)](https://github.com/Aton-Kish/your-reputation/actions/workflows/build.yaml?query=branch:1.19)
+[![build](https://github.com/Aton-Kish/your-reputation/actions/workflows/build.yaml/badge.svg?branch=1.19-wthit)](https://github.com/Aton-Kish/your-reputation/actions/workflows/build.yaml?query=branch:1.19-wthit)
 
 # Your Reputation
 
