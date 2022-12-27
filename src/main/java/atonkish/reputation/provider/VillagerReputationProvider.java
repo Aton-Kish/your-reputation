@@ -12,7 +12,6 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITooltip;
-import mcp.mobius.waila.api.WailaConstants;
 
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,41 +19,15 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 
-import atonkish.reputation.ReputationMod;
-import atonkish.reputation.entity.passive.VillagerEntityInterface;
 import atonkish.reputation.util.ReputationStatus;
 import atonkish.reputation.util.cache.VillagerCache;
 
-public enum VillagerProvider implements IEntityComponentProvider, IServerDataProvider<VillagerEntity> {
+public enum VillagerReputationProvider implements IEntityComponentProvider, IServerDataProvider<VillagerEntity> {
 
     INSTANCE;
 
     public static final String REPUTATION_KEY = "ReputationModReputation";
-    public static final String IS_SNITCH_KEY = "ReputationModIsSnitch";
-
-    @Override
-    public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        NbtCompound data = accessor.getServerData();
-        PlayerEntity player = accessor.getPlayer();
-        VillagerEntity villager = accessor.getEntity();
-
-        VillagerCache.Data villagerData = VillagerProvider.getVillagerData(data, player, villager);
-
-        MutableText text = Text.literal("");
-        if (villagerData.isSnitch()) {
-            text = text.append(Text.literal(villager.getDisplayName().getString())
-                    .formatted(Formatting.WHITE, Formatting.STRIKETHROUGH));
-            text = text.append(" ");
-            text = text.append(Text.translatable("entity." + ReputationMod.MOD_ID + ".villager.snitch")
-                    .formatted(Formatting.DARK_RED));
-        } else {
-            text = text.append(Text.literal(villager.getDisplayName().getString()).formatted(Formatting.WHITE));
-        }
-
-        tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, text);
-    }
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
@@ -62,7 +35,7 @@ public enum VillagerProvider implements IEntityComponentProvider, IServerDataPro
         PlayerEntity player = accessor.getPlayer();
         VillagerEntity villager = accessor.getEntity();
 
-        VillagerCache.Data villagerData = VillagerProvider.getVillagerData(data, player, villager);
+        VillagerCache.Data villagerData = VillagerReputationProvider.getVillagerData(data, player, villager);
 
         @Nullable
         Integer reputation = villagerData.getReputation();
@@ -86,10 +59,7 @@ public enum VillagerProvider implements IEntityComponentProvider, IServerDataPro
         VillagerEntity villager = accessor.getTarget();
 
         int reputation = villager.getReputation(player);
-        data.putInt(VillagerProvider.REPUTATION_KEY, reputation);
-
-        boolean isSnitch = ((VillagerEntityInterface) villager).isSnitch(player);
-        data.putBoolean(VillagerProvider.IS_SNITCH_KEY, isSnitch);
+        data.putInt(VillagerReputationProvider.REPUTATION_KEY, reputation);
     }
 
     private static VillagerCache.Data getVillagerData(NbtCompound data, PlayerEntity player, VillagerEntity villager) {
@@ -99,19 +69,11 @@ public enum VillagerProvider implements IEntityComponentProvider, IServerDataPro
                 .orElse(new VillagerCache.Data());
 
         @Nullable
-        Integer reputation = data.contains(VillagerProvider.REPUTATION_KEY)
-                ? data.getInt(VillagerProvider.REPUTATION_KEY)
+        Integer reputation = data.contains(VillagerReputationProvider.REPUTATION_KEY)
+                ? data.getInt(VillagerReputationProvider.REPUTATION_KEY)
                 : null;
         if (reputation != null) {
             villagerData.setReputation(reputation);
-        }
-
-        @Nullable
-        Boolean isSnitch = data.contains(VillagerProvider.IS_SNITCH_KEY)
-                ? data.getBoolean(VillagerProvider.IS_SNITCH_KEY)
-                : null;
-        if (isSnitch != null) {
-            villagerData.setIsSnitch(isSnitch);
         }
 
         villagerCache.put(villager, villagerData);
