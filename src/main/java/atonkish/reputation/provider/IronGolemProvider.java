@@ -28,6 +28,8 @@ public enum IronGolemProvider implements IEntityComponentProvider, IServerDataPr
 
     INSTANCE;
 
+    public static final String ANGRY_AT_KEY = "ReputationModAngryAt";
+
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         NbtCompound data = accessor.getServerData();
@@ -54,7 +56,7 @@ public enum IronGolemProvider implements IEntityComponentProvider, IServerDataPr
         @Nullable
         UUID angryAt = golem.getAngryAt();
         if (angryAt != null) {
-            data.putUuid(DataKeys.IRON_GOLEM_ANGRY_AT, angryAt);
+            data.putUuid(IronGolemProvider.ANGRY_AT_KEY, angryAt);
         }
     }
 
@@ -65,8 +67,8 @@ public enum IronGolemProvider implements IEntityComponentProvider, IServerDataPr
                 .orElse(new IronGolemCache.Data());
 
         @Nullable
-        UUID angryAt = data.contains(DataKeys.IRON_GOLEM_ANGRY_AT)
-                ? data.getUuid(DataKeys.IRON_GOLEM_ANGRY_AT)
+        UUID angryAt = data.contains(IronGolemProvider.ANGRY_AT_KEY)
+                ? data.getUuid(IronGolemProvider.ANGRY_AT_KEY)
                 : null;
         golemData.setAngryAt(angryAt);
 
