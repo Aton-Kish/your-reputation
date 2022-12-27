@@ -12,7 +12,9 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.mixin.EntityAccess;
 
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -40,15 +42,22 @@ public enum VillagerSnitchProvider implements IEntityComponentProvider, IServerD
 
         VillagerCache.Data villagerData = VillagerSnitchProvider.getVillagerData(data, player, villager);
 
-        MutableText text = Text.literal("");
+        @Nullable
+        Text customName = villager.getCustomName();
+        String name = customName != null
+                ? customName.getString() + " (" + ((EntityAccess) villager).wthit_getTypeName().getString() + ")"
+                : villager.getName().getString();
+
+        IWailaConfig.Formatter formatter = IWailaConfig.get().getFormatter();
+        Text text = formatter.entityName(name);
         if (villagerData.isSnitch()) {
-            text = text.append(Text.literal(villager.getDisplayName().getString())
-                    .formatted(Formatting.WHITE, Formatting.STRIKETHROUGH));
-            text = text.append(" ");
-            text = text.append(Text.translatable("entity." + ReputationMod.MOD_ID + ".villager.snitch")
+            MutableText mText = Text.empty();
+            mText = mText.append(Text.literal(name).formatted(Formatting.WHITE, Formatting.STRIKETHROUGH));
+            mText = mText.append(" ");
+            mText = mText.append(Text.translatable("entity." + ReputationMod.MOD_ID + ".villager.snitch")
                     .formatted(Formatting.DARK_RED));
-        } else {
-            text = text.append(Text.literal(villager.getDisplayName().getString()).formatted(Formatting.WHITE));
+
+            text = mText;
         }
 
         tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, text);
