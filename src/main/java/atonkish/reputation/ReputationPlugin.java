@@ -1,11 +1,14 @@
 package atonkish.reputation;
 
-import mcp.mobius.waila.api.IRegistrar;
-import mcp.mobius.waila.api.IWailaPlugin;
-import mcp.mobius.waila.api.TooltipPosition;
-
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.VillagerEntity;
+
+import snownee.jade.api.EntityAccessor;
+import snownee.jade.api.IWailaClientRegistration;
+import snownee.jade.api.IWailaCommonRegistration;
+import snownee.jade.api.IWailaPlugin;
+import snownee.jade.api.Identifiers;
 
 import atonkish.reputation.provider.IronGolemProvider;
 import atonkish.reputation.provider.VillagerReputationProvider;
@@ -13,15 +16,25 @@ import atonkish.reputation.provider.VillagerSnitchProvider;
 
 public class ReputationPlugin implements IWailaPlugin {
     @Override
-    public void register(IRegistrar registrar) {
-        // Client Side
-        registrar.addComponent(IronGolemProvider.INSTANCE, TooltipPosition.BODY, IronGolemEntity.class);
-        registrar.addComponent(VillagerReputationProvider.INSTANCE, TooltipPosition.BODY, VillagerEntity.class);
-        registrar.addComponent(VillagerSnitchProvider.INSTANCE, TooltipPosition.BODY, VillagerEntity.class);
+    public void register(IWailaCommonRegistration registration) {
+        registration.registerEntityDataProvider(IronGolemProvider.INSTANCE, IronGolemEntity.class);
+        registration.registerEntityDataProvider(VillagerReputationProvider.INSTANCE, VillagerEntity.class);
+        registration.registerEntityDataProvider(VillagerSnitchProvider.INSTANCE, VillagerEntity.class);
+    }
 
-        // Server Side
-        registrar.addEntityData(IronGolemProvider.INSTANCE, IronGolemEntity.class);
-        registrar.addEntityData(VillagerReputationProvider.INSTANCE, VillagerEntity.class);
-        registrar.addEntityData(VillagerSnitchProvider.INSTANCE, VillagerEntity.class);
+    @Override
+    public void registerClient(IWailaClientRegistration registration) {
+        registration.registerEntityComponent(IronGolemProvider.INSTANCE, IronGolemEntity.class);
+        registration.registerEntityComponent(VillagerReputationProvider.INSTANCE, VillagerEntity.class);
+        registration.registerEntityComponent(VillagerSnitchProvider.INSTANCE, VillagerEntity.class);
+
+        registration.addTooltipCollectedCallback((tooltip, accessor) -> {
+            if (accessor instanceof EntityAccessor entityAccessor) {
+                Entity entity = entityAccessor.getEntity();
+                if (entity instanceof VillagerEntity) {
+                    tooltip.remove(Identifiers.CORE_OBJECT_NAME);
+                }
+            }
+        });
     }
 }
