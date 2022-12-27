@@ -9,6 +9,7 @@ import com.google.common.cache.Cache;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -16,21 +17,27 @@ import net.minecraft.util.Formatting;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.IServerAccessor;
+import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.WailaConstants;
 
 import atonkish.reputation.ReputationMod;
+import atonkish.reputation.entity.passive.VillagerEntityInterface;
 import atonkish.reputation.util.ReputationStatus;
 import atonkish.reputation.util.cache.VillagerCache;
 
-public class VillagerComponentProvider implements IEntityComponentProvider {
+public enum VillagerProvider implements IEntityComponentProvider, IServerDataProvider<VillagerEntity> {
+
+    INSTANCE;
+
     @Override
     public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         NbtCompound data = accessor.getServerData().getCompound(DataKeys.REPUTATION_MOD_DATA);
         PlayerEntity player = accessor.getPlayer();
         VillagerEntity villager = accessor.getEntity();
 
-        VillagerCache.Data villagerData = VillagerComponentProvider.getVillagerData(data, player, villager);
+        VillagerCache.Data villagerData = VillagerProvider.getVillagerData(data, player, villager);
 
         MutableText text = Text.literal("");
         if (villagerData.isSnitch()) {
@@ -52,7 +59,7 @@ public class VillagerComponentProvider implements IEntityComponentProvider {
         PlayerEntity player = accessor.getPlayer();
         VillagerEntity villager = accessor.getEntity();
 
-        VillagerCache.Data villagerData = VillagerComponentProvider.getVillagerData(data, player, villager);
+        VillagerCache.Data villagerData = VillagerProvider.getVillagerData(data, player, villager);
 
         @Nullable
         Integer reputation = villagerData.getReputation();
@@ -67,6 +74,23 @@ public class VillagerComponentProvider implements IEntityComponentProvider {
         text = text.formatted(status.getFormatting());
 
         tooltip.addLine(text);
+    }
+
+    @Override
+    public final void appendServerData(NbtCompound data, IServerAccessor<VillagerEntity> accessor,
+            IPluginConfig config) {
+        ServerPlayerEntity player = accessor.getPlayer();
+
+        VillagerEntity villager = accessor.getTarget();
+        NbtCompound villagerData = new NbtCompound();
+
+        int reputation = villager.getReputation(player);
+        villagerData.putInt(DataKeys.VILLAGER_REPUTATION, reputation);
+
+        boolean isSnitch = ((VillagerEntityInterface) villager).isSnitch(player);
+        villagerData.putBoolean(DataKeys.VILLAGER_IS_SNITCH, isSnitch);
+
+        data.put(DataKeys.REPUTATION_MOD_DATA, villagerData);
     }
 
     private static VillagerCache.Data getVillagerData(NbtCompound data, PlayerEntity player, VillagerEntity villager) {
