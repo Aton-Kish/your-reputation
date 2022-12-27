@@ -16,7 +16,9 @@ public class VillagerEntityMixin implements VillagerEntityInterface {
     private Map<PlayerEntity, Boolean> snitchRecords = new HashMap<>();
 
     public boolean isSnitch(PlayerEntity player) {
-        return Optional.ofNullable(this.snitchRecords.get(player)).orElse(false);
+        return Optional
+                .ofNullable(this.snitchRecords.get(player))
+                .orElse(false);
     }
 
     public void setIsSnitch(PlayerEntity player, boolean isSnitch) {
