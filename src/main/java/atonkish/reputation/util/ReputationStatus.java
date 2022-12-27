@@ -1,8 +1,8 @@
 package atonkish.reputation.util;
 
-import net.minecraft.util.Formatting;
-
 import org.jetbrains.annotations.Nullable;
+
+import net.minecraft.util.Formatting;
 
 import atonkish.reputation.ReputationMod;
 
@@ -18,7 +18,7 @@ public enum ReputationStatus {
     private final Formatting formatting;
 
     private ReputationStatus(String status, Formatting formatting) {
-        this.translateKey = "entity." + ReputationMod.MOD_ID + ".villager.reputation." + status;
+        this.translateKey = String.format("entity.%s.villager.reputation.%s", ReputationMod.MOD_ID, status);
         this.formatting = formatting;
     }
 

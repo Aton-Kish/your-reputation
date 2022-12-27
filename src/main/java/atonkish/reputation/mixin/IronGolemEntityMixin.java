@@ -5,12 +5,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.spongepowered.asm.mixin.Mixin;
+
 import net.minecraft.entity.mob.Angerable;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
-
-import org.spongepowered.asm.mixin.Mixin;
 
 import atonkish.reputation.entity.passive.IronGolemEntityInterface;
 import atonkish.reputation.entity.passive.VillagerEntityInterface;
@@ -25,14 +25,14 @@ public abstract class IronGolemEntityMixin implements Angerable, IronGolemEntity
             harmReports.put(player, victims);
         }
 
-        ((VillagerEntityInterface) villager).setSnitch(player);
+        ((VillagerEntityInterface) villager).setIsSnitch(player, true);
         return this.harmReports.get(player).add(villager);
     }
 
     public void clearReports() {
         for (PlayerEntity player : this.harmReports.keySet()) {
             for (VillagerEntity villager : this.harmReports.get(player)) {
-                ((VillagerEntityInterface) villager).resetSnitch(player);
+                ((VillagerEntityInterface) villager).setIsSnitch(player, false);
             }
         }
         this.harmReports.clear();

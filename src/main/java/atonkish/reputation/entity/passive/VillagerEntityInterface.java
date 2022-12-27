@@ -5,7 +5,5 @@ import net.minecraft.entity.player.PlayerEntity;
 public interface VillagerEntityInterface {
     public boolean isSnitch(PlayerEntity player);
 
-    public void setSnitch(PlayerEntity player);
-
-    public void resetSnitch(PlayerEntity player);
+    public void setIsSnitch(PlayerEntity player, boolean isSnitch);
 }
