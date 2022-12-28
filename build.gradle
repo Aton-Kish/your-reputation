@@ -85,7 +85,7 @@ publishing {
 }
 
 curseforge {
-	apiKey = project.curseforge_token
+	apiKey = project.findProperty("curseforge_token") ?: "Missing token"
 
 	project {
 		id = "579757"
@@ -112,7 +112,7 @@ curseforge {
 }
 
 modrinth {
-    token = project.modrinth_token
+    token = project.findProperty("modrinth_token") ?: "Missing token"
 
     projectId = "MrLyhFlg"
 
