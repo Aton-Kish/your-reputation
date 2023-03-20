@@ -88,7 +88,7 @@ curseforge {
 	apiKey = project.findProperty("curseforge_token") ?: "Missing token"
 
 	project {
-		id = "579757"
+		id = project.curseforge_id
 
 		mainArtifact(remapJar) {
 			displayName = "Your Reputation v${project.version}"
@@ -114,7 +114,7 @@ curseforge {
 modrinth {
     token = project.findProperty("modrinth_token") ?: "Missing token"
 
-    projectId = "MrLyhFlg"
+    projectId = project.modrinth_id
 
     uploadFile = remapJar
     versionNumber = project.version
