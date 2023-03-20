@@ -1,5 +1,5 @@
 plugins {
-	id "fabric-loom" version "1.0-SNAPSHOT"
+	id "fabric-loom" version "1.1-SNAPSHOT"
 	id "maven-publish"
 	id "com.matthewprenger.cursegradle" version "1.4.0"
 	id "com.modrinth.minotaur" version "2.+"
@@ -90,7 +90,7 @@ curseforge {
 	apiKey = project.findProperty("curseforge_token") ?: "Missing token"
 
 	project {
-		id = "579757"
+		id = project.curseforge_id
 
 		mainArtifact(remapJar) {
 			displayName = "Your Reputation v${project.version}"
@@ -105,6 +105,7 @@ curseforge {
 		addGameVersion "1.19.1"
 		addGameVersion "1.19.2"
 		addGameVersion "1.19.3"
+		addGameVersion "1.19.4"
 
 		relations {
 			requiredDependency "fabric-api"
@@ -116,7 +117,7 @@ curseforge {
 modrinth {
     token = project.findProperty("modrinth_token") ?: "Missing token"
 
-    projectId = "MrLyhFlg"
+    projectId = project.modrinth_id
 
     uploadFile = remapJar
     versionNumber = project.version
@@ -124,7 +125,7 @@ modrinth {
     versionType = "release"
 	changelog = "[v${project.version}](https://github.com/Aton-Kish/your-reputation/releases/tag/v" + java.net.URLEncoder.encode(project.version, "UTF-8") + ")"
 
-    gameVersions = ["1.19", "1.19.1", "1.19.2", "1.19.3"]
+    gameVersions = ["1.19", "1.19.1", "1.19.2", "1.19.3", "1.19.4"]
     loaders = ["fabric"]
 
     dependencies {
