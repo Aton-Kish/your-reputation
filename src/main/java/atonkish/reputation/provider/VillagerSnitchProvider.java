@@ -6,11 +6,12 @@ import org.jetbrains.annotations.Nullable;
 
 import com.google.common.cache.Cache;
 
+import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
-import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
@@ -28,7 +29,7 @@ import atonkish.reputation.ReputationMod;
 import atonkish.reputation.entity.passive.VillagerEntityInterface;
 import atonkish.reputation.util.cache.VillagerCache;
 
-public enum VillagerSnitchProvider implements IEntityComponentProvider, IServerDataProvider<VillagerEntity> {
+public enum VillagerSnitchProvider implements IEntityComponentProvider, IDataProvider<VillagerEntity> {
 
     INSTANCE;
 
@@ -36,7 +37,7 @@ public enum VillagerSnitchProvider implements IEntityComponentProvider, IServerD
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        NbtCompound data = accessor.getServerData();
+        NbtCompound data = accessor.getData().raw();
         PlayerEntity player = accessor.getPlayer();
         VillagerEntity villager = accessor.getEntity();
 
@@ -65,13 +66,13 @@ public enum VillagerSnitchProvider implements IEntityComponentProvider, IServerD
     }
 
     @Override
-    public final void appendServerData(NbtCompound data, IServerAccessor<VillagerEntity> accessor,
+    public final void appendData(IDataWriter data, IServerAccessor<VillagerEntity> accessor,
             IPluginConfig config) {
         ServerPlayerEntity player = accessor.getPlayer();
         VillagerEntity villager = accessor.getTarget();
 
         boolean isSnitch = ((VillagerEntityInterface) villager).isSnitch(player);
-        data.putBoolean(VillagerSnitchProvider.IS_SNITCH_KEY, isSnitch);
+        data.raw().putBoolean(VillagerSnitchProvider.IS_SNITCH_KEY, isSnitch);
     }
 
     private static VillagerCache.Data getVillagerData(NbtCompound data, PlayerEntity player, VillagerEntity villager) {

@@ -6,11 +6,12 @@ import org.jetbrains.annotations.Nullable;
 
 import com.google.common.cache.Cache;
 
+import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
-import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITooltip;
 
 import net.minecraft.entity.passive.VillagerEntity;
@@ -23,7 +24,7 @@ import net.minecraft.text.Text;
 import atonkish.reputation.util.ReputationStatus;
 import atonkish.reputation.util.cache.VillagerCache;
 
-public enum VillagerReputationProvider implements IEntityComponentProvider, IServerDataProvider<VillagerEntity> {
+public enum VillagerReputationProvider implements IEntityComponentProvider, IDataProvider<VillagerEntity> {
 
     INSTANCE;
 
@@ -31,7 +32,7 @@ public enum VillagerReputationProvider implements IEntityComponentProvider, ISer
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        NbtCompound data = accessor.getServerData();
+        NbtCompound data = accessor.getData().raw();
         PlayerEntity player = accessor.getPlayer();
         VillagerEntity villager = accessor.getEntity();
 
@@ -53,13 +54,13 @@ public enum VillagerReputationProvider implements IEntityComponentProvider, ISer
     }
 
     @Override
-    public final void appendServerData(NbtCompound data, IServerAccessor<VillagerEntity> accessor,
+    public final void appendData(IDataWriter data, IServerAccessor<VillagerEntity> accessor,
             IPluginConfig config) {
         ServerPlayerEntity player = accessor.getPlayer();
         VillagerEntity villager = accessor.getTarget();
 
         int reputation = villager.getReputation(player);
-        data.putInt(VillagerReputationProvider.REPUTATION_KEY, reputation);
+        data.raw().putInt(VillagerReputationProvider.REPUTATION_KEY, reputation);
     }
 
     private static VillagerCache.Data getVillagerData(NbtCompound data, PlayerEntity player, VillagerEntity villager) {
