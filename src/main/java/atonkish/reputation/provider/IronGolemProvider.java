@@ -7,16 +7,13 @@ import org.jetbrains.annotations.Nullable;
 
 import com.google.common.cache.Cache;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
 
 import snownee.jade.api.EntityAccessor;
 import snownee.jade.api.IEntityComponentProvider;
@@ -28,7 +25,7 @@ import snownee.jade.api.config.IPluginConfig;
 import atonkish.reputation.ReputationMod;
 import atonkish.reputation.util.cache.IronGolemCache;
 
-public enum IronGolemProvider implements IEntityComponentProvider, IServerDataProvider<Entity> {
+public enum IronGolemProvider implements IEntityComponentProvider, IServerDataProvider<EntityAccessor> {
 
     INSTANCE;
 
@@ -64,9 +61,8 @@ public enum IronGolemProvider implements IEntityComponentProvider, IServerDataPr
     }
 
     @Override
-    public final void appendServerData(NbtCompound data, ServerPlayerEntity player, World world, Entity entity,
-            boolean showDetails) {
-        IronGolemEntity golem = (IronGolemEntity) entity;
+    public final void appendServerData(NbtCompound data, EntityAccessor accessor) {
+        IronGolemEntity golem = (IronGolemEntity) accessor.getEntity();
 
         @Nullable
         UUID angryAt = golem.getAngryAt();
