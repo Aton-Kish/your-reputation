@@ -8,7 +8,6 @@
     "VillagerEntityMixin",
     "TrackIronGolemTargetGoalMixin"
   ],
-  "client": [],
   "injectors": {
     "defaultRequire": 1
   }

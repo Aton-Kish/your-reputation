@@ -6,15 +6,12 @@ import org.jetbrains.annotations.Nullable;
 
 import com.google.common.cache.Cache;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
 
 import snownee.jade.api.EntityAccessor;
 import snownee.jade.api.IEntityComponentProvider;
@@ -27,7 +24,7 @@ import atonkish.reputation.ReputationMod;
 import atonkish.reputation.util.ReputationStatus;
 import atonkish.reputation.util.cache.VillagerCache;
 
-public enum VillagerReputationProvider implements IEntityComponentProvider, IServerDataProvider<Entity> {
+public enum VillagerReputationProvider implements IEntityComponentProvider, IServerDataProvider<EntityAccessor> {
 
     INSTANCE;
 
@@ -69,9 +66,9 @@ public enum VillagerReputationProvider implements IEntityComponentProvider, ISer
     }
 
     @Override
-    public final void appendServerData(NbtCompound data, ServerPlayerEntity player, World world, Entity entity,
-            boolean showDetails) {
-        VillagerEntity villager = (VillagerEntity) entity;
+    public final void appendServerData(NbtCompound data, EntityAccessor accessor) {
+        PlayerEntity player = accessor.getPlayer();
+        VillagerEntity villager = (VillagerEntity) accessor.getEntity();
 
         int reputation = villager.getReputation(player);
         data.putInt(VillagerReputationProvider.REPUTATION_KEY, reputation);
