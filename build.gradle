@@ -29,9 +29,8 @@ loom {
 	splitEnvironmentSourceSets()
 
 	mods {
-		"quartzelv" {
+		"reputation" {
 			sourceSet sourceSets.main
-			sourceSet sourceSets.client
 		}
 	}
 }
@@ -112,11 +111,7 @@ curseforge {
 
 		addGameVersion "Fabric"
 		addGameVersion "Java 17"
-		addGameVersion "1.19"
-		addGameVersion "1.19.1"
-		addGameVersion "1.19.2"
-		addGameVersion "1.19.3"
-		addGameVersion "1.19.4"
+		addGameVersion "1.20"
 
 		relations {
 			requiredDependency "fabric-api"
@@ -136,7 +131,7 @@ modrinth {
 	versionType = "release"
 	changelog = "[v${project.version}](https://github.com/Aton-Kish/your-reputation/releases/tag/v" + java.net.URLEncoder.encode(project.version, "UTF-8") + ")"
 
-	gameVersions = ["1.19", "1.19.1", "1.19.2", "1.19.3", "1.19.4"]
+	gameVersions = ["1.20"]
 	loaders = ["fabric"]
 
 	dependencies {
