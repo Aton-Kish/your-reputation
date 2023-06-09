@@ -29,9 +29,8 @@ loom {
 	splitEnvironmentSourceSets()
 
 	mods {
-		"quartzelv" {
+		"reputation" {
 			sourceSet sourceSets.main
-			sourceSet sourceSets.client
 		}
 	}
 }
