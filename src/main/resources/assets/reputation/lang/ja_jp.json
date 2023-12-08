@@ -1,4 +1,7 @@
 {
+  "config.jade.plugin_reputation.iron_golem": "アイアンゴーレムの怒り",
+  "config.jade.plugin_reputation.villager_reputation": "村人からの評価",
+  "config.jade.plugin_reputation.villager_snitch": "村人の名前",
   "entity.reputation.villager.snitch": "チクリ野郎",
   "entity.reputation.villager.reputation.friendly": "友好",
   "entity.reputation.villager.reputation.trustworthy": "信頼",

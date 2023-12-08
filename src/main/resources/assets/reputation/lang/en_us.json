@@ -1,4 +1,7 @@
 {
+  "config.jade.plugin_reputation.iron_golem": "Anger of Iron Golem",
+  "config.jade.plugin_reputation.villager_reputation": "Reputation from Villager",
+  "config.jade.plugin_reputation.villager_snitch": "Villager Name",
   "entity.reputation.villager.snitch": "Snitch",
   "entity.reputation.villager.reputation.friendly": "Friendly",
   "entity.reputation.villager.reputation.trustworthy": "Trustworthy",
