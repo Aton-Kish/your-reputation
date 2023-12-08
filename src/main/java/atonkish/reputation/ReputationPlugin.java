@@ -28,11 +28,11 @@ public class ReputationPlugin implements IWailaPlugin {
         registration.registerEntityComponent(VillagerReputationProvider.INSTANCE, VillagerEntity.class);
         registration.registerEntityComponent(VillagerSnitchProvider.INSTANCE, VillagerEntity.class);
 
-        registration.addTooltipCollectedCallback((tooltip, accessor) -> {
+        registration.addTooltipCollectedCallback((rootElement, accessor) -> {
             if (accessor instanceof EntityAccessor entityAccessor) {
                 Entity entity = entityAccessor.getEntity();
                 if (entity instanceof VillagerEntity) {
-                    tooltip.remove(Identifiers.CORE_OBJECT_NAME);
+                    rootElement.getTooltip().remove(Identifiers.CORE_OBJECT_NAME);
                 }
             }
         });

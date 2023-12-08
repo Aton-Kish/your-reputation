@@ -54,11 +54,12 @@ public enum VillagerSnitchProvider implements IEntityComponentProvider, IServerD
 
         IWailaConfig wailaConfig = Jade.CONFIG.get();
 
-        Text name = Optional
+        String name = Optional
                 .ofNullable(villager.getCustomName())
-                .orElse(villager.getType().getName());
+                .orElse(villager.getType().getName())
+                .getString();
 
-        Text text = wailaConfig.getFormatting().title(name);
+        Text text = wailaConfig.getFormatting().registryName(name);
         if (villagerData.isSnitch()) {
             String snitchTranslateKey = String.format("entity.%s.villager.snitch",
                     ReputationMod.MOD_ID);
