@@ -111,8 +111,10 @@ curseforge {
 
 		addGameVersion "Fabric"
 		addGameVersion "Java 17"
-		addGameVersion "1.20"
 		addGameVersion "1.20.1"
+		addGameVersion "1.20.2"
+		addGameVersion "1.20.3"
+		addGameVersion "1.20.4"
 
 		relations {
 			requiredDependency "fabric-api"
@@ -132,7 +134,7 @@ modrinth {
 	versionType = "release"
 	changelog = "[v${project.version}](https://github.com/Aton-Kish/your-reputation/releases/tag/v" + java.net.URLEncoder.encode(project.version, "UTF-8") + ")"
 
-	gameVersions = ["1.20", "1.20.1"]
+	gameVersions = ["1.20.1", "1.20.2", "1.20.3", "1.20.4"]
 	loaders = ["fabric"]
 
 	dependencies {
