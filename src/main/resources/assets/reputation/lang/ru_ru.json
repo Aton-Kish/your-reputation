@@ -1,0 +1,10 @@
+{
+  "entity.reputation.villager.snitch": "Ябедничает",
+  "entity.reputation.villager.reputation.friendly": "Дружелюбен",
+  "entity.reputation.villager.reputation.trustworthy": "Доверчив",
+  "entity.reputation.villager.reputation.neutral": "Нейтрален",
+  "entity.reputation.villager.reputation.suspicious": "Подозрителен",
+  "entity.reputation.villager.reputation.hostile": "Враждебен",
+  "entity.reputation.villager.reputation.unknown": "Неизвестно",
+  "entity.reputation.iron_golem.angry": "Враждебен"
+}
