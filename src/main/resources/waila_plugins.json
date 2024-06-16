@@ -1,0 +1,6 @@
+{
+  "reputation:plugin": {
+    "initializer": "atonkish.reputation.ReputationPlugin",
+    "side": "*"
+  }
+}
