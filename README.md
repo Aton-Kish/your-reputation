@@ -7,23 +7,23 @@
 
 # Your Reputation
 
-Your Reputation is a [WTHIT](https://www.curseforge.com/minecraft/mc-mods/wthit) plugin that displays your reputation on a tooltip with each villager.
+Your Reputation is a [WTHIT](https://www.curseforge.com/minecraft/mc-mods/wthit) plugin that displays your reputation on the villagers' tooltips.
 
-| Reputation  | Value                          | Tooltip                       |
-| ----------- | ------------------------------ | ----------------------------- |
-| Friendly    | 100 or more                    | ![](./images/friendly.png)    |
-| Trustworthy | more than 0 and less than 100  | ![](./images/trustworthy.png) |
-| Neutral     | equal to 0                     | ![](./images/neutral.png)     |
-| Suspicious  | more than -100 and less than 0 | ![](./images/suspicious.png)  |
-| Hostile     | -100 or less                   | ![](./images/hostile.png)     |
+| Reputation  | Value                          | Tooltip                                  |
+| ----------- | ------------------------------ | ---------------------------------------- |
+| Friendly    | 100 or more                    | ![friendly](./images/friendly.png)       |
+| Trustworthy | more than 0 and less than 100  | ![trustworthy](./images/trustworthy.png) |
+| Neutral     | equal to 0                     | ![neutral](./images/neutral.png)         |
+| Suspicious  | more than -100 and less than 0 | ![suspicious](./images/suspicious.png)   |
+| Hostile     | -100 or less                   | ![hostile](./images/hostile.png)         |
 
-If your reputation is "Hostile", villagers may be snitches.
+If your reputation is "Hostile", villagers will become snitches.
 
-![](./images/snitch.png)
+![snitch](./images/snitch.png)
 
-And then, iron golems will get angry and attack you...
+And then, iron golems will get angry and start attacking you...
 
-![](./images/angry_golem.png)
+![angry golem](./images/angry_golem.png)
 
 ## License
 
