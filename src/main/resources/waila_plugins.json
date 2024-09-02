@@ -1,6 +1,10 @@
 {
   "reputation:plugin": {
-    "initializer": "atonkish.reputation.ReputationPlugin",
-    "side": "*"
+    "entrypoints": {
+      "common": "atonkish.reputation.ReputationCommonPlugin",
+      "client": "atonkish.reputation.ReputationClientPlugin"
+    },
+    "side": "*",
+    "required": []
   }
 }
