@@ -15,6 +15,7 @@ import net.minecraft.entity.ai.goal.TrackIronGolemTargetGoal;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Box;
 
 import atonkish.reputation.entity.passive.IronGolemEntityInterface;
@@ -34,9 +35,10 @@ public class TrackIronGolemTargetGoalMixin {
     @Inject(at = @At("HEAD"), method = "canStart", cancellable = true)
     public void canStart(CallbackInfoReturnable<Boolean> infoReturnable) {
         Box box = this.golem.getBoundingBox().expand(10.0, 8.0, 10.0);
-        List<VillagerEntity> villagers = this.golem.getWorld().getTargets(VillagerEntity.class, this.targetPredicate,
-                this.golem, box);
-        List<PlayerEntity> players = this.golem.getWorld().getPlayers(this.targetPredicate, this.golem, box);
+        ServerWorld serverWorld = (ServerWorld) this.golem.getWorld();
+        List<VillagerEntity> villagers = serverWorld.getTargets(VillagerEntity.class,
+                this.targetPredicate, this.golem, box);
+        List<PlayerEntity> players = serverWorld.getPlayers(this.targetPredicate, this.golem, box);
         for (VillagerEntity villager : villagers) {
             for (PlayerEntity player : players) {
                 int reputation = villager.getReputation(player);
