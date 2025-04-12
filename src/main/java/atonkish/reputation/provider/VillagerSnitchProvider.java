@@ -83,7 +83,7 @@ public enum VillagerSnitchProvider implements IEntityComponentProvider, IDataPro
 
         @Nullable
         Boolean isSnitch = data.contains(VillagerSnitchProvider.IS_SNITCH_KEY)
-                ? data.getBoolean(VillagerSnitchProvider.IS_SNITCH_KEY)
+                ? data.getBoolean(VillagerSnitchProvider.IS_SNITCH_KEY).orElse(null)
                 : null;
         if (isSnitch != null) {
             villagerData.setIsSnitch(isSnitch);

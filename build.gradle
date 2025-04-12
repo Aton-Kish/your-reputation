@@ -27,6 +27,11 @@ repositories {
 			includeGroup "mcp.mobius.waila"
 		}
 	}
+
+	// ModMenu
+	maven {
+		url "https://maven.terraformersmc.com/releases/"
+	}
 }
 
 loom {
@@ -50,6 +55,9 @@ dependencies {
 
 	// WTHIT
 	modImplementation "mcp.mobius.waila:wthit:fabric-${project.wthit_version}"
+
+	// ModMenu (WTHIT dependency)
+	modImplementation "com.terraformersmc:modmenu:${project.mod_menu_version}"
 }
 
 processResources {

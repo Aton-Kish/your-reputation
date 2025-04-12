@@ -71,7 +71,7 @@ public enum VillagerReputationProvider implements IEntityComponentProvider, IDat
 
         @Nullable
         Integer reputation = data.contains(VillagerReputationProvider.REPUTATION_KEY)
-                ? data.getInt(VillagerReputationProvider.REPUTATION_KEY)
+                ? data.getInt(VillagerReputationProvider.REPUTATION_KEY).orElse(null)
                 : null;
         if (reputation != null) {
             villagerData.setReputation(reputation);
