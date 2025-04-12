@@ -23,6 +23,7 @@ import snownee.jade.api.TooltipPosition;
 import snownee.jade.api.config.IPluginConfig;
 
 import atonkish.reputation.ReputationMod;
+import atonkish.reputation.nbt.ModNbtHelper;
 import atonkish.reputation.util.cache.IronGolemCache;
 
 public enum IronGolemProvider implements IEntityComponentProvider, IServerDataProvider<EntityAccessor> {
@@ -67,7 +68,7 @@ public enum IronGolemProvider implements IEntityComponentProvider, IServerDataPr
         @Nullable
         UUID angryAt = golem.getAngryAt();
         if (angryAt != null) {
-            data.putUuid(IronGolemProvider.ANGRY_AT_KEY, angryAt);
+            data.put(IronGolemProvider.ANGRY_AT_KEY, ModNbtHelper.fromUuid(angryAt));
         }
     }
 
@@ -79,7 +80,7 @@ public enum IronGolemProvider implements IEntityComponentProvider, IServerDataPr
 
         @Nullable
         UUID angryAt = data.contains(IronGolemProvider.ANGRY_AT_KEY)
-                ? data.getUuid(IronGolemProvider.ANGRY_AT_KEY)
+                ? ModNbtHelper.toUuid(data.get(IronGolemProvider.ANGRY_AT_KEY))
                 : null;
         golemData.setAngryAt(angryAt);
 
