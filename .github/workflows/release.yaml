@@ -1,8 +1,3 @@
-# Automatically build the project and run any configured tests for every push
-# and submitted pull request. This can help catch issues that only occur on
-# certain platforms or Java versions, and provides a first line of defence
-# against bad commits.
-
 name: release
 on:
   push:
@@ -11,21 +6,21 @@ on:
 
 jobs:
   release:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     env:
-      JAVA_VERSION: 21
+      JAVA_VERSION: '21'
       ORG_GRADLE_PROJECT_curseforge_token: ${{ secrets.CURSEFORGE_TOKEN }}
       ORG_GRADLE_PROJECT_modrinth_token: ${{ secrets.MODRINTH_TOKEN }}
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
       - name: validate gradle wrapper
-        uses: gradle/wrapper-validation-action@v2
+        uses: gradle/actions/wrapper-validation@v4
       - name: setup jdk ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v4
         with:
           java-version: ${{ env.JAVA_VERSION }}
-          distribution: "microsoft"
+          distribution: 'microsoft'
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew
       - name: release

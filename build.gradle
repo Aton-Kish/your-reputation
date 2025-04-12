@@ -1,5 +1,5 @@
 plugins {
-	id "fabric-loom" version "1.9-SNAPSHOT"
+	id "fabric-loom" version "1.10-SNAPSHOT"
 	id "maven-publish"
 	id "com.matthewprenger.cursegradle" version "1.4.0"
 	id "com.modrinth.minotaur" version "2.+"
@@ -27,6 +27,11 @@ repositories {
 			includeGroup "mcp.mobius.waila"
 		}
 	}
+
+	// ModMenu
+	maven {
+		url "https://maven.terraformersmc.com/releases/"
+	}
 }
 
 loom {
@@ -50,13 +55,16 @@ dependencies {
 
 	// WTHIT
 	modImplementation "mcp.mobius.waila:wthit:fabric-${project.wthit_version}"
+
+	// ModMenu (WTHIT dependency)
+	modImplementation "com.terraformersmc:modmenu:${project.mod_menu_version}"
 }
 
 processResources {
 	inputs.property "version", project.version
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+		expand "version": inputs.properties.version
 	}
 }
 
@@ -76,7 +84,7 @@ java {
 
 jar {
 	from("LICENSE") {
-		rename { "${it}_${project.base.archivesName.get()}"}
+		rename { "${it}_${inputs.properties.archivesName}"}
 	}
 }
 
@@ -116,9 +124,7 @@ curseforge {
 
 		addGameVersion "Fabric"
 		addGameVersion "Java 21"
-		addGameVersion "1.21.2"
-		addGameVersion "1.21.3"
-		addGameVersion "1.21.4"
+		addGameVersion "1.21.5"
 
 		relations {
 			requiredDependency "fabric-api"
@@ -138,7 +144,7 @@ modrinth {
 	versionType = "release"
 	changelog = "[v${project.version}](https://github.com/Aton-Kish/your-reputation/releases/tag/v" + java.net.URLEncoder.encode(project.version, "UTF-8") + ")"
 
-	gameVersions = ["1.21.2", "1.21.3", "1.21.4"]
+	gameVersions = ["1.21.5"]
 	loaders = ["fabric"]
 
 	dependencies {
