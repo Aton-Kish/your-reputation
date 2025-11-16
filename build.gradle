@@ -21,7 +21,7 @@ repositories {
 
 	// WTHIT
 	maven {
-		url "https://maven2.bai.lol"
+		url = "https://maven2.bai.lol"
 		content {
 			includeGroup "lol.bai"
 			includeGroup "mcp.mobius.waila"
@@ -30,7 +30,7 @@ repositories {
 
 	// ModMenu
 	maven {
-		url "https://maven.terraformersmc.com/releases/"
+		url = "https://maven.terraformersmc.com/releases/"
 	}
 }
 
@@ -104,7 +104,7 @@ publishing {
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
 		maven {
-			url "file:/$buildDir/maven"
+			url = "file://$buildDir/maven"
 		}
 	}
 }
