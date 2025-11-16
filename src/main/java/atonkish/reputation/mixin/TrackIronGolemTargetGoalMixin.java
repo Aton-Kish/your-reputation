@@ -36,7 +36,7 @@ public class TrackIronGolemTargetGoalMixin {
     @Inject(at = @At("HEAD"), method = "canStart", cancellable = true)
     public void canStart(CallbackInfoReturnable<Boolean> infoReturnable) {
         Box box = this.golem.getBoundingBox().expand(10.0, 8.0, 10.0);
-        ServerWorld serverWorld = (ServerWorld) this.golem.getWorld();
+        ServerWorld serverWorld = (ServerWorld) this.golem.getEntityWorld();
         List<VillagerEntity> villagers = serverWorld.getTargets(VillagerEntity.class,
                 this.targetPredicate, this.golem, box);
         List<PlayerEntity> players = serverWorld.getPlayers(this.targetPredicate, this.golem, box);
