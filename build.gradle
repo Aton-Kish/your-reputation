@@ -19,15 +19,7 @@ repositories {
 	// for more information about repositories.
 
 	maven {
-		url = "https://www.cursemaven.com"
-		content {
-			includeGroup "curse.maven"
-		}
-	}
-
-	// ModMenu
-	maven {
-		url = "https://maven.terraformersmc.com/releases/"
+		url = "https://api.modrinth.com/maven"
 	}
 }
 
@@ -51,10 +43,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	// Jade
-	modImplementation "curse.maven:jade-324717:${project.jade_file_id}"
-
-	// ModMenu (WTHIT dependency)
-	modImplementation "com.terraformersmc:modmenu:${project.mod_menu_version}"
+	modImplementation "maven.modrinth:jade:${project.jade_version}"
 }
 
 processResources {
