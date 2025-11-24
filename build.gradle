@@ -24,13 +24,6 @@ repositories {
 }
 
 loom {
-	splitEnvironmentSourceSets()
-
-	mods {
-		"reputation" {
-			sourceSet sourceSets.main
-		}
-	}
 }
 
 dependencies {

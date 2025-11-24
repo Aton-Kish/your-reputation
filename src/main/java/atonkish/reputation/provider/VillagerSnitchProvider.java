@@ -27,9 +27,8 @@ import atonkish.reputation.ReputationMod;
 import atonkish.reputation.entity.passive.VillagerEntityInterface;
 import atonkish.reputation.util.cache.VillagerCache;
 
-public enum VillagerSnitchProvider implements IEntityComponentProvider, IServerDataProvider<EntityAccessor> {
-
-    INSTANCE;
+public class VillagerSnitchProvider implements IServerDataProvider<EntityAccessor> {
+    public static final VillagerSnitchProvider INSTANCE = new VillagerSnitchProvider();
 
     public static final Identifier VILLAGER_SNITCH_IDENTIFIER = Identifier.of(ReputationMod.MOD_ID, "villager_snitch");
     public static final String IS_SNITCH_KEY = "ReputationModIsSnitch";
@@ -37,41 +36,6 @@ public enum VillagerSnitchProvider implements IEntityComponentProvider, IServerD
     @Override
     public Identifier getUid() {
         return VillagerSnitchProvider.VILLAGER_SNITCH_IDENTIFIER;
-    }
-
-    @Override
-    public int getDefaultPriority() {
-        return TooltipPosition.HEAD - 1;
-    }
-
-    @Override
-    public void appendTooltip(ITooltip tooltip, EntityAccessor accessor, IPluginConfig config) {
-        NbtCompound data = accessor.getServerData();
-        PlayerEntity player = accessor.getPlayer();
-        VillagerEntity villager = (VillagerEntity) accessor.getEntity();
-
-        VillagerCache.Data villagerData = VillagerSnitchProvider.getVillagerData(data, player, villager);
-
-        IWailaConfig wailaConfig = Jade.config();
-
-        String name = Optional
-                .ofNullable(villager.getCustomName())
-                .orElse(villager.getType().getName())
-                .getString();
-
-        Text text = wailaConfig.formatting().registryName(name);
-        if (villagerData.isSnitch()) {
-            String snitchTranslateKey = String.format("entity.%s.villager.snitch",
-                    ReputationMod.MOD_ID);
-            MutableText mText = Text.empty();
-            mText = mText.append(text.copy().formatted(Formatting.STRIKETHROUGH));
-            mText = mText.append(" ");
-            mText = mText.append(Text.translatable(snitchTranslateKey).formatted(Formatting.DARK_RED));
-
-            text = mText;
-        }
-
-        tooltip.add(text);
     }
 
     @Override
@@ -83,22 +47,66 @@ public enum VillagerSnitchProvider implements IEntityComponentProvider, IServerD
         data.putBoolean(VillagerSnitchProvider.IS_SNITCH_KEY, isSnitch);
     }
 
-    private static VillagerCache.Data getVillagerData(NbtCompound data, PlayerEntity player, VillagerEntity villager) {
-        Cache<VillagerEntity, VillagerCache.Data> villagerCache = VillagerCache.getOrCreate(player);
-        VillagerCache.Data villagerData = Optional
-                .ofNullable(villagerCache.getIfPresent(villager))
-                .orElse(new VillagerCache.Data());
+    public static class Client implements IEntityComponentProvider {
+        public static final Client INSTANCE = new Client();
 
-        @Nullable
-        Boolean isSnitch = data.contains(VillagerSnitchProvider.IS_SNITCH_KEY)
-                ? data.getBoolean(VillagerSnitchProvider.IS_SNITCH_KEY).orElse(null)
-                : null;
-        if (isSnitch != null) {
-            villagerData.setIsSnitch(isSnitch);
+        @Override
+        public Identifier getUid() {
+            return VillagerSnitchProvider.VILLAGER_SNITCH_IDENTIFIER;
         }
 
-        villagerCache.put(villager, villagerData);
+        @Override
+        public int getDefaultPriority() {
+            return TooltipPosition.HEAD - 1;
+        }
 
-        return villagerData;
+        @Override
+        public void appendTooltip(ITooltip tooltip, EntityAccessor accessor, IPluginConfig config) {
+            NbtCompound data = accessor.getServerData();
+            PlayerEntity player = accessor.getPlayer();
+            VillagerEntity villager = (VillagerEntity) accessor.getEntity();
+
+            VillagerCache.Data villagerData = this.getVillagerData(data, player, villager);
+
+            IWailaConfig wailaConfig = Jade.config();
+
+            String name = Optional
+                    .ofNullable(villager.getCustomName())
+                    .orElse(villager.getType().getName())
+                    .getString();
+
+            Text text = wailaConfig.formatting().registryName(name);
+            if (villagerData.isSnitch()) {
+                String snitchTranslateKey = String.format("entity.%s.villager.snitch",
+                        ReputationMod.MOD_ID);
+                MutableText mText = Text.empty();
+                mText = mText.append(text.copy().formatted(Formatting.STRIKETHROUGH));
+                mText = mText.append(" ");
+                mText = mText.append(Text.translatable(snitchTranslateKey).formatted(Formatting.DARK_RED));
+
+                text = mText;
+            }
+
+            tooltip.add(text);
+        }
+
+        private VillagerCache.Data getVillagerData(NbtCompound data, PlayerEntity player, VillagerEntity villager) {
+            Cache<VillagerEntity, VillagerCache.Data> villagerCache = VillagerCache.getOrCreate(player);
+            VillagerCache.Data villagerData = Optional
+                    .ofNullable(villagerCache.getIfPresent(villager))
+                    .orElse(new VillagerCache.Data());
+
+            @Nullable
+            Boolean isSnitch = data.contains(VillagerSnitchProvider.IS_SNITCH_KEY)
+                    ? data.getBoolean(VillagerSnitchProvider.IS_SNITCH_KEY).orElse(null)
+                    : null;
+            if (isSnitch != null) {
+                villagerData.setIsSnitch(isSnitch);
+            }
+
+            villagerCache.put(villager, villagerData);
+
+            return villagerData;
+        }
     }
 }

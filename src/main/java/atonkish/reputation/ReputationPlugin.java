@@ -9,11 +9,13 @@ import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaCommonRegistration;
 import snownee.jade.api.IWailaPlugin;
 import snownee.jade.api.JadeIds;
+import snownee.jade.api.WailaPlugin;
 
 import atonkish.reputation.provider.IronGolemProvider;
 import atonkish.reputation.provider.VillagerReputationProvider;
 import atonkish.reputation.provider.VillagerSnitchProvider;
 
+@WailaPlugin
 public class ReputationPlugin implements IWailaPlugin {
     @Override
     public void register(IWailaCommonRegistration registration) {
@@ -24,9 +26,9 @@ public class ReputationPlugin implements IWailaPlugin {
 
     @Override
     public void registerClient(IWailaClientRegistration registration) {
-        registration.registerEntityComponent(IronGolemProvider.INSTANCE, IronGolemEntity.class);
-        registration.registerEntityComponent(VillagerReputationProvider.INSTANCE, VillagerEntity.class);
-        registration.registerEntityComponent(VillagerSnitchProvider.INSTANCE, VillagerEntity.class);
+        registration.registerEntityComponent(IronGolemProvider.Client.INSTANCE, IronGolemEntity.class);
+        registration.registerEntityComponent(VillagerReputationProvider.Client.INSTANCE, VillagerEntity.class);
+        registration.registerEntityComponent(VillagerSnitchProvider.Client.INSTANCE, VillagerEntity.class);
 
         registration.addTooltipCollectedCallback((rootElement, accessor) -> {
             if (accessor instanceof EntityAccessor entityAccessor) {

@@ -24,9 +24,8 @@ import atonkish.reputation.ReputationMod;
 import atonkish.reputation.util.ReputationStatus;
 import atonkish.reputation.util.cache.VillagerCache;
 
-public enum VillagerReputationProvider implements IEntityComponentProvider, IServerDataProvider<EntityAccessor> {
-
-    INSTANCE;
+public class VillagerReputationProvider implements IServerDataProvider<EntityAccessor> {
+    public static final VillagerReputationProvider INSTANCE = new VillagerReputationProvider();
 
     public static final Identifier VILLAGER_REPUTATION_IDENTIFIER = Identifier.of(ReputationMod.MOD_ID,
             "villager_reputation");
@@ -38,34 +37,6 @@ public enum VillagerReputationProvider implements IEntityComponentProvider, ISer
     }
 
     @Override
-    public int getDefaultPriority() {
-        return TooltipPosition.BODY + 100;
-    }
-
-    @Override
-    public void appendTooltip(ITooltip tooltip, EntityAccessor accessor, IPluginConfig config) {
-        NbtCompound data = accessor.getServerData();
-        PlayerEntity player = accessor.getPlayer();
-        VillagerEntity villager = (VillagerEntity) accessor.getEntity();
-
-        VillagerCache.Data villagerData = VillagerReputationProvider.getVillagerData(data, player, villager);
-
-        @Nullable
-        Integer reputation = villagerData.getReputation();
-        ReputationStatus status = ReputationStatus.getStatus(reputation);
-
-        MutableText text = Text.translatable(status.getTranslateKey());
-
-        if (reputation != null) {
-            text = text.append(String.format(" (%d)", reputation));
-        }
-
-        text = text.formatted(status.getFormatting());
-
-        tooltip.add(text);
-    }
-
-    @Override
     public final void appendServerData(NbtCompound data, EntityAccessor accessor) {
         PlayerEntity player = accessor.getPlayer();
         VillagerEntity villager = (VillagerEntity) accessor.getEntity();
@@ -74,22 +45,60 @@ public enum VillagerReputationProvider implements IEntityComponentProvider, ISer
         data.putInt(VillagerReputationProvider.REPUTATION_KEY, reputation);
     }
 
-    private static VillagerCache.Data getVillagerData(NbtCompound data, PlayerEntity player, VillagerEntity villager) {
-        Cache<VillagerEntity, VillagerCache.Data> villagerCache = VillagerCache.getOrCreate(player);
-        VillagerCache.Data villagerData = Optional
-                .ofNullable(villagerCache.getIfPresent(villager))
-                .orElse(new VillagerCache.Data());
+    public static class Client implements IEntityComponentProvider {
+        public static final Client INSTANCE = new Client();
 
-        @Nullable
-        Integer reputation = data.contains(VillagerReputationProvider.REPUTATION_KEY)
-                ? data.getInt(VillagerReputationProvider.REPUTATION_KEY).orElse(null)
-                : null;
-        if (reputation != null) {
-            villagerData.setReputation(reputation);
+        @Override
+        public Identifier getUid() {
+            return VillagerReputationProvider.VILLAGER_REPUTATION_IDENTIFIER;
         }
 
-        villagerCache.put(villager, villagerData);
+        @Override
+        public int getDefaultPriority() {
+            return TooltipPosition.BODY + 100;
+        }
 
-        return villagerData;
+        @Override
+        public void appendTooltip(ITooltip tooltip, EntityAccessor accessor, IPluginConfig config) {
+            NbtCompound data = accessor.getServerData();
+            PlayerEntity player = accessor.getPlayer();
+            VillagerEntity villager = (VillagerEntity) accessor.getEntity();
+
+            VillagerCache.Data villagerData = this.getVillagerData(data, player, villager);
+
+            @Nullable
+            Integer reputation = villagerData.getReputation();
+            ReputationStatus status = ReputationStatus.getStatus(reputation);
+
+            MutableText text = Text.translatable(status.getTranslateKey());
+
+            if (reputation != null) {
+                text = text.append(String.format(" (%d)", reputation));
+            }
+
+            text = text.formatted(status.getFormatting());
+
+            tooltip.add(text);
+        }
+
+        private VillagerCache.Data getVillagerData(NbtCompound data, PlayerEntity player,
+                VillagerEntity villager) {
+            Cache<VillagerEntity, VillagerCache.Data> villagerCache = VillagerCache.getOrCreate(player);
+            VillagerCache.Data villagerData = Optional
+                    .ofNullable(villagerCache.getIfPresent(villager))
+                    .orElse(new VillagerCache.Data());
+
+            @Nullable
+            Integer reputation = data.contains(VillagerReputationProvider.REPUTATION_KEY)
+                    ? data.getInt(VillagerReputationProvider.REPUTATION_KEY).orElse(null)
+                    : null;
+            if (reputation != null) {
+                villagerData.setReputation(reputation);
+            }
+
+            villagerCache.put(villager, villagerData);
+
+            return villagerData;
+        }
     }
 }
