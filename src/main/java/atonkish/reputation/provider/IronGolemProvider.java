@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.google.common.cache.Cache;
 
+import net.minecraft.entity.LazyEntityReference;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -42,9 +43,9 @@ public class IronGolemProvider implements IServerDataProvider<EntityAccessor> {
         IronGolemEntity golem = (IronGolemEntity) accessor.getEntity();
 
         @Nullable
-        UUID angryAt = golem.getAngryAt();
-        if (angryAt != null) {
-            data.put(IronGolemProvider.ANGRY_AT_KEY, ModNbtHelper.fromUuid(angryAt));
+        LazyEntityReference angryAtRef = golem.getAngryAt();
+        if (angryAtRef != null) {
+            data.put(IronGolemProvider.ANGRY_AT_KEY, ModNbtHelper.fromUuid(angryAtRef.getUuid()));
         }
     }
 

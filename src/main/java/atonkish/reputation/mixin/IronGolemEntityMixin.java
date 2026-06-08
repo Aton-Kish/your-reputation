@@ -42,7 +42,7 @@ public abstract class IronGolemEntityMixin implements Angerable, IronGolemEntity
         this.setAttacker(null);
         this.setAngryAt(null);
         this.setTarget(null);
-        this.setAngerTime(0);
+        this.setAngerEndTime(Angerable.NO_ANGER_END_TIME);
         this.clearReports();
     }
 }
